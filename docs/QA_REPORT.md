@@ -1,60 +1,38 @@
-# Rapport QA — 2 novembre 2026 — reprise Docker
+# Rapport QA local — 2 novembre 2026
 
-## Vérifications passées
+## État exécuté
 
-| Commande / parcours | Résultat |
+| Vérification | Résultat |
 |---|---|
-| `npm ci --no-audit --no-fund` | OK |
-| `npm test` | OK — contenu bilingue, rendu, adapter et intégration serveur |
-| `npm run typecheck` | OK |
-| `npm run build` | OK — 12 pages prerenderées FR/EN |
-| `npm run build --prefix cms` | OK — Strapi 5.60.0 admin compilé |
-| `docker compose ... config --quiet` | OK |
-| `docker version` / `docker compose version` | OK — Engine 29.8.2 / Compose 5.5.1 |
-| PostgreSQL 16 `healthy` + `pg_isready` | OK |
-| Strapi `/_health` | HTTP 204 |
-| Strapi `/admin` | HTTP 200, Content-Security-Policy et X-Frame-Options présents |
-| Migrations Strapi 5.60.0 | OK — migrations de document, locale et brouillon exécutées |
-| API CMS publiée vide | HTTP 200, aucune donnée confidentielle |
-| Brouillon FR via Document Service | Invisible dans l’API publique et la fiche |
-| Publication FR + localisation EN liée | Pages SSR, API, sitemap et RSS vérifiés |
-| Modification publiée sans reconstruction | OK — titre, blocs et SEO reflétés par le serveur immédiatement |
-| Dépublication puis suppression des données factices | OK — API vide, fiche HTTP 404, sitemap/RSS propres |
-| Sauvegarde/restauration PostgreSQL | OK — dump 231210 octets, restauration et `pg_isready` confirmés |
-| serveur Express `/health` | HTTP 200 |
-| API `/api/publications` sans CMS | HTTP 200, liste vide sûre |
-| `/fr/perspectives/` sans CMS | HTTP 200, état éditorial neutre/indisponible |
-| slug inexistant ou non publié | HTTP 404 |
-| sitemap XML et RSS FR | HTTP 200 |
-| `POST /api/contact` validation / SMTP absent / honeypot | HTTP 400 / 503 / 200, sans faux succès |
-| Accueil FR clair | Vérifié visuellement dans le navigateur |
-| Accueil EN sombre | Vérifié visuellement dans le navigateur |
-| Portrait, navigation, formations et alternance de langue | Vérifiés dans l’arbre d’accessibilité |
+| Docker Engine / Compose | PASS — Engine 29.8.2, Compose 5.5.1 |
+| PostgreSQL | PASS — PostgreSQL 16 Alpine, conteneur healthy, volume persistant |
+| Strapi | PASS — 5.60.0, build admin réussi, `/_health` HTTP 204, `/admin` HTTP 200 |
+| Mailpit | PASS — `axllent/mailpit:v1.32.0`, UI 8025, SMTP 1025, volume persistant |
+| `npm test` | PASS — contenu bilingue, rendu et tests serveur |
+| `npm run build` | PASS — TypeScript, Vite et prerender FR/EN |
+| `npm run build --prefix cms` | PASS — compilation TypeScript et panneau Strapi |
+| Configuration Compose | PASS — PostgreSQL, Strapi, Mailpit sur réseau privé |
+| Internationalisation Strapi | PASS — locales English et Français créées dans l'interface |
+| Configuration Email Strapi | PASS — provider Nodemailer, Mailpit détecté |
+| Test de connexion Strapi | PASS — interface « Connected » |
+| Test d'envoi Strapi | PASS — message capturé par Mailpit |
+| Formulaire contact FR/EN | PASS — HTTP 200, UTF-8 et Reply-To capturés |
+| Échappement HTML | PASS — balises utilisateur échappées dans le HTML |
+| Validation, origine, honeypot, rate-limit | PASS — réponses dédiées et aucun faux envoi |
+| Timeout / erreur SMTP | PASS — chemins d'erreur dédiés et tests de configuration |
+| Publications publiques | PASS antérieur — publié uniquement, brouillons exclus |
+| SEO éditorial | PASS partiel — canonical, Open Graph, Twitter et hreflang SSR renforcés |
+| Pagination et sitemap | PASS code — pages paginées et collecte multi-pages |
+| Sauvegarde/restauration PostgreSQL | PASS antérieur — dump/restauration locaux vérifiés |
 
-## Vérifications CMS et limite restante
+## Administration temporaire
 
-Docker Desktop est maintenant opérationnel. PostgreSQL 16 et Strapi Community 5.60.0 démarrent dans le réseau privé Docker, avec volume de base persistant et uploads montés localement.
+Un compte administrateur local de QA a été créé uniquement pour le parcours graphique. Aucun compte de production, identifiant Hostinger ou secret n'a été créé ni versionné. Les messages Mailpit de test sont supprimés par le test reproductible.
 
-Le parcours de contenu a été vérifié avec Strapi Document Service et des données factices temporaires : brouillon, publication FR, traduction EN, SSR, SEO, sitemap, RSS, modification sans rebuild, dépublication et suppression.
+La création exhaustive de publications, médias, PDF et d'un rôle éditeur doit rester exécutée dans une session QA locale dédiée avant l'ouverture de la PR finale; elle n'est pas déclarée comme entièrement passée sans preuve correspondante.
 
-La création du premier compte administrateur et le contrôle manuel du rôle éditeur restent volontairement non exécutés, conformément à la consigne de ne pas créer un compte Brice avec des identifiants inventés. L’écran `/admin` est accessible et affiche la procédure officielle de création.
+## Dépendances et limites restantes
 
-Le CMS démarre avec l’avertissement de développement suivant, sans impact sur les publications :
-
-```text
-[email]: The "sendmail" email provider is still supported...
-```
-
-## Audit dépendances
-
-- Le frontend/API ne conserve plus Nodemailer vulnérable : version exacte `10.3.1`.
-- Strapi 5.60.0 conserve des alertes transitives remontées par `npm audit`; les correctifs proposés impliquent des changements majeurs vers des versions incompatibles. Aucun `npm audit fix --force` n’a été appliqué.
-
-## Action restante pour l’administration
-
-```powershell
-docker compose --env-file cms/.env -f cms/docker-compose.yml up --build -d
-Invoke-WebRequest http://127.0.0.1:1337/admin
-```
-
-Puis créer l’administrateur, le rôle éditeur et le token de lecture CMS selon `docs/CMS_EDITOR_GUIDE.md`, rédiger une publication factice FR/EN, la publier, puis vérifier ses deux URLs, le sitemap, le RSS et l’absence de la version brouillon.
+- La livraison Internet Hostinger, SPF/DKIM/DMARC et la réception réelle ne peuvent être validées avant la création des comptes de production par Brice.
+- `npm audit --omit=dev --audit-level=high` frontend : 0 vulnérabilité. `npm audit --prefix cms --omit=dev --audit-level=high` Strapi 5.60.0 : 43 vulnérabilités transitives (dont 25 high), notamment via Nodemailer, webpack-dev-middleware et zod. Aucun `npm audit fix --force` n'a été appliqué, car l'outil propose des changements majeurs incompatibles; elles doivent être requalifiées lors d'une montée de version Strapi.
+- Les tests graphiques multi-navigateurs, les 12 formations sur toutes les tailles et la restauration des médias doivent être validés dans l'environnement QA local complet; aucune validation visuelle non exécutée n'est présentée comme PASS.

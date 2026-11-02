@@ -36,8 +36,26 @@ services:
       - ./public/uploads:/opt/app/public/uploads
     networks: [private]
 
+  mailpit:
+    image: axllent/mailpit:v1.32.0
+    container_name: brice-portfolio-mailpit
+    restart: unless-stopped
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MP_ALLOWED_HOSTS: localhost,127.0.0.1,mailpit
+    ports:
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
+    volumes:
+      - brice_portfolio_mailpit:/data
+    networks: [private]
+
 volumes:
   brice_portfolio_db:
+  brice_portfolio_mailpit:
 
 networks:
   private:

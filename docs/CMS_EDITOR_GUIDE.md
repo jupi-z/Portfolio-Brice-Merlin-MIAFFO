@@ -4,7 +4,7 @@
 
 1. Copier `cms/.env.example` vers `cms/.env`.
 2. Remplacer toutes les valeurs `replace-with-*` par des valeurs locales fortes. Ne jamais commiter `cms/.env`.
-3. Depuis la racine :
+3. Depuis la racine (PostgreSQL, Strapi et Mailpit) :
 
 ```powershell
 docker compose --env-file cms/.env -f cms/docker-compose.yml up --build -d
@@ -14,6 +14,10 @@ docker compose --env-file cms/.env -f cms/docker-compose.yml up --build -d
 5. Dans Settings > Global Settings > Internationalization, vérifier les locales `fr` et `en`.
 6. Dans Settings > Users & Permissions, créer un rôle éditeur limité à Publication et Media.
 7. Créer un token API de lecture uniquement, limité à `Publication.find` et `Publication.findOne`, puis placer sa valeur dans `CMS_API_TOKEN` du `.env` racine du serveur public.
+
+La boîte locale de capture est disponible sur `http://127.0.0.1:8025`. Elle ne délivre aucun message vers Internet. Vérifier la connexion et l'envoi de test dans Settings > Email plugin > Configuration.
+
+Le test reproductible des formulaires est `npm run test:smtp` depuis la racine. Il exige Mailpit démarré, capture un message français et un message anglais, contrôle les sujets puis supprime les messages de test.
 
 ## Créer et publier une publication
 
