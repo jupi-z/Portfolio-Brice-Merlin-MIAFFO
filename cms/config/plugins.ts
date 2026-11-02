@@ -6,6 +6,10 @@ type Env = {
 
 export default ({ env }: { env: Env }) => ({
   i18n: true,
+  'editorial-portal': {
+    enabled: true,
+    resolve: './src/plugins/editorial-portal',
+  },
   email: {
     config: {
       provider: env('EMAIL_PROVIDER', 'nodemailer'),

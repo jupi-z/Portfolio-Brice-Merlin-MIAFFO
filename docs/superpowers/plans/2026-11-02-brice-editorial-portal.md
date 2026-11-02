@@ -4,7 +4,7 @@
 
 **Goal:** Build a simple French-first editorial portal at `/gestion` that lets Brice manage bilingual publications without using the technical Strapi back office.
 
-**Architecture:** Keep Strapi 5/PostgreSQL as the source of truth and expose a server-proxied editorial API. The browser receives only the portal session and safe publication data; Strapi admin credentials/tokens remain server-side. The portal is a separate React shell that uses Strapi's Design System components and patterns, but not the public page templates.
+**Architecture:** Keep Strapi 5/PostgreSQL as the source of truth and add an application-specific Strapi admin extension at `/admin/plugins/editorial-portal`. The extension uses Strapi's existing admin session, RBAC and fetch client, plus `@strapi/design-system`; it does not create a second login or public-facing application. The custom page uses a guided editorial information architecture while the public page templates remain untouched.
 
 **Tech Stack:** React 18, TypeScript, existing Vite build, Express, Strapi 5 admin/content-manager APIs, PostgreSQL, Node built-in test runner, Docker Compose, Playwright/CUA verification.
 
@@ -51,51 +51,48 @@
 - [ ] Run `node --test tests/admin-contract.test.mjs` and confirm the contract tests pass.
 - [ ] Commit `feat: define editorial portal contract and visual tokens` and push; verify the remote SHA.
 
-### Task 2: Add server-side session and Strapi proxy boundary
+### Task 2: Add the secured Strapi plugin boundary
 
 **Files:**
-- Create: `server/admin-session.mjs`
-- Create: `server/admin-editorial.mjs`
-- Modify: `server/index.mjs`
-- Modify: `.env.example`
+- Create: `cms/src/plugins/editorial-portal/server/src/index.ts`
+- Create: `cms/src/plugins/editorial-portal/server/src/routes/index.ts`
+- Create: `cms/src/plugins/editorial-portal/server/src/controllers/editorial.ts`
+- Modify: `cms/config/plugins.ts`
 - Test: `tests/admin-session.test.mjs`
 - Test: `tests/admin-api.integration.test.mjs`
 
 **Interfaces:**
-- `POST /api/gestion/login` accepts `{ email, password }` and returns `{ ok: true, user }` or a generic 401.
-- `POST /api/gestion/logout` clears the HTTP-only session.
-- `GET /api/gestion/session` returns the minimal authenticated user or 401.
-- `GET /api/gestion/publications` supports `locale`, `status`, `type`, `q`, `page` and `pageSize`.
-- `POST /api/gestion/publications` creates a draft; `PATCH /api/gestion/publications/:documentId` updates it.
-- `POST /api/gestion/publications/:documentId/publish`, `/unpublish`, `/locales` and `/archive` perform explicit actions.
-- `POST /api/gestion/media` validates and proxies image/PDF uploads.
-- `GET /api/gestion/preview/:documentId/:locale` returns authenticated preview HTML.
+- `GET /editorial-portal/publications` returns only the authenticated editor's safe summaries.
+- `POST/PATCH /editorial-portal/publications` creates or updates a draft through the Document Service.
+- `POST /editorial-portal/publications/:documentId/publish`, `/unpublish`, `/locales` and `/archive` perform explicit actions.
+- `POST /editorial-portal/media` validates and stores image/PDF uploads through Strapi's upload service.
+- `GET /editorial-portal/preview/:documentId/:locale` returns authenticated preview data with no public cache.
 
-- [ ] Write failing tests for 401 responses, session cookie flags, generic login failures and Strapi token non-disclosure.
-- [ ] Implement encrypted/signed HTTP-only session storage using `ADMIN_SESSION_SECRET`, with bounded expiry and SameSite protection; never use a browser-visible bearer token.
-- [ ] Implement a narrow Strapi admin client that maps Strapi responses into the portal types and normalizes errors.
-- [ ] Add CSRF/origin checks to state-changing portal requests, request size limits and audit-safe logs.
-- [ ] Run the session and proxy tests with a mocked Strapi server, then run the Docker integration test against local Strapi.
-- [ ] Commit `feat: add secured editorial portal API` and push; verify the remote SHA.
+- [ ] Write failing tests for authenticated admin routes, role checks, published/draft filtering and normalized errors.
+- [ ] Implement the local plugin server routes with Strapi admin authentication and Document Service calls; never create a second token or session mechanism.
+- [ ] Add plugin permissions and restrict write actions to the dedicated editor permission scope.
+- [ ] Add request size limits, file validation and audit-safe logs.
+- [ ] Run the plugin server tests with a mocked Strapi service, then run the Docker integration test against local Strapi.
+- [ ] Commit `feat: add secured Strapi editorial plugin boundary` and push; verify the remote SHA.
 
 ### Task 3: Build the independent portal shell and dashboard
 
 **Files:**
-- Create: `src/admin/AdminApp.tsx`
-- Create: `src/admin/AdminLayout.tsx`
-- Create: `src/admin/AdminDashboard.tsx`
-- Create: `src/admin/admin.css`
-- Modify: `src/main.tsx`
-- Modify: `server/index.mjs`
+- Create: `cms/src/admin/app.tsx`
+- Create: `cms/src/plugins/editorial-portal/admin/src/index.ts`
+- Create: `cms/src/plugins/editorial-portal/admin/src/pages/App.tsx`
+- Create: `cms/src/plugins/editorial-portal/admin/src/pages/HomePage.tsx`
+- Create: `cms/src/plugins/editorial-portal/admin/src/components/PortalLayout.tsx`
+- Create: `cms/src/plugins/editorial-portal/admin/src/strapi-admin-theme.css`
 - Test: `tests/admin-ui.test.mjs`
 
-- [ ] Write UI tests for `/gestion`, login redirect, dashboard empty state, navigation, logout and responsive layout landmarks.
-- [ ] Route `/gestion` to `AdminApp` while preserving the public `App` route behavior and hydration.
-- [ ] Add a dedicated admin shell with simple French navigation: Tableau de bord, Publications, Médias, Aide, Déconnexion.
+- [ ] Write UI tests for `/admin/plugins/editorial-portal`, dashboard empty state, navigation, native Strapi session and responsive layout landmarks.
+- [ ] Register the local admin plugin through `cms/src/admin/app.tsx` and `app.addMenuLink`, preserving the native Strapi authentication and shell.
+- [ ] Add a dedicated portal page with simple French navigation: Tableau de bord, Publications, Médias, Aide, Déconnexion.
 - [ ] Use Strapi Design System components through `strapi-admin-theme.css` and `admin.css`; do not import or compose public templates as admin screens.
 - [ ] Add light/dark mode, keyboard focus, skip link, semantic headings, responsive desktop/tablet/mobile layout and plain-language status badges.
 - [ ] Add server fallback so a direct `/gestion` request serves the application without changing public locale fallbacks.
-- [ ] Run typecheck, UI tests and a browser check at 390px, 768px and desktop widths.
+- [ ] Run the Strapi admin build, UI tests and a browser check at 390px, 768px and desktop widths.
 - [ ] Commit `feat: add French-first editorial portal shell` and push; verify the remote SHA.
 
 ### Task 4: Implement the publication list and guided editor
