@@ -67,3 +67,44 @@
 .editor-footer #form-message { flex: 1 1 240px; margin: 0; }
 @media (max-width: 960px) { .editor-workspace { grid-template-columns: 1fr; } .editor-sidebar { position: static; } .editor-footer { grid-column: auto; } }
 @media (max-width: 720px) { .editor-heading { display: block; } .editor-heading-actions { justify-content: flex-start; margin-top: 16px; } .editor-toolbar { position: static; } .document-canvas { padding: 28px 18px; } .editor-sidebar { padding: 12px; } .editor-footer .muted { width: 100%; } }
+
+/* Full-bleed editorial workspace: hierarchy comes from spacing and rules, not cards. */
+.app-shell, #portal-view { min-height: 100dvh; }
+.login-card[hidden], #portal-view[hidden], .view[hidden] { display: none; }
+.content { width: 100%; max-width: none; margin: 0; padding: clamp(24px, 3vw, 48px) clamp(20px, 4vw, 72px); }
+.view { min-height: calc(100dvh - 76px); }
+.login-card { display: grid; align-content: center; width: 100%; min-height: 100dvh; margin: 0; padding: clamp(28px, 7vw, 88px) clamp(20px, 8vw, 160px); background: var(--strapi-bg); border: 0; border-radius: 0; box-shadow: none; }
+.login-card > * { width: min(640px, 100%); margin-inline: auto; }
+.help { margin: 32px 8px 0; padding: 20px 8px 0; background: transparent; border-top: 1px solid var(--strapi-border); border-radius: 0; }
+.stats { gap: 0; margin-bottom: 32px; border-block: 1px solid var(--strapi-border); }
+.stats article { min-height: 110px; padding: 20px 24px 20px 0; background: transparent; border: 0; border-right: 1px solid var(--strapi-border); border-radius: 0; }
+.stats article:last-child { border-right: 0; padding-left: 24px; }
+.stats article:not(:first-child) { padding-left: 24px; }
+.panel { padding: 24px 0; background: transparent; border: 0; border-block: 1px solid var(--strapi-border); border-radius: 0; box-shadow: none; }
+.panel + .panel { border-top: 0; }
+.filters.panel { margin-bottom: 0; padding: 0 0 24px; border-top: 0; }
+.editor-workspace { grid-template-columns: minmax(0, 1fr) minmax(300px, 360px); gap: clamp(28px, 4vw, 64px); width: 100%; }
+.editor-main { min-height: calc(100dvh - 250px); overflow: visible; background: transparent; border: 0; border-radius: 0; box-shadow: none; }
+.editor-toolbar { padding: 10px 0; background: transparent; }
+.document-canvas { width: 100%; max-width: none; margin: 0; padding: clamp(28px, 4vw, 64px) clamp(0px, 3vw, 48px); }
+.block-card { padding: 22px 0; background: transparent; border: 0; border-bottom: 1px solid var(--strapi-border); border-radius: 0; box-shadow: none; }
+.block-card:first-child { border-top: 1px solid var(--strapi-border); }
+.block-card:focus-within { border-color: var(--strapi-primary); box-shadow: none; }
+.rich-editor { min-height: 120px; padding: 14px 0; background: transparent; border: 0; border-bottom: 1px dashed var(--strapi-border); border-radius: 0; }
+.rich-editor:focus { border-bottom-color: var(--strapi-primary); box-shadow: none; }
+.editor-sidebar { position: sticky; top: 20px; padding: 0 0 0 clamp(20px, 3vw, 40px); background: transparent; border: 0; border-left: 1px solid var(--strapi-border); border-radius: 0; box-shadow: none; }
+.seo-score, .seo-preview { padding: 12px 0; background: transparent; border-block: 1px solid var(--strapi-border); border-radius: 0; }
+.seo-score { border-top: 0; }
+.editor-footer { border-top: 1px solid var(--strapi-border); }
+
+@media (max-width: 960px) {
+  .editor-sidebar { padding: 24px 0 0; border-top: 1px solid var(--strapi-border); border-left: 0; }
+}
+@media (max-width: 720px) {
+  .content { padding: 24px 16px; }
+  .stats { grid-template-columns: 1fr; }
+  .stats article, .stats article:not(:first-child), .stats article:last-child { min-height: auto; padding: 16px 0; border-right: 0; border-bottom: 1px solid var(--strapi-border); }
+  .stats article:last-child { border-bottom: 0; }
+  .editor-sidebar { padding-top: 20px; }
+  .document-canvas { padding-inline: 0; }
+}

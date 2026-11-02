@@ -14,10 +14,22 @@ test('editorial shell exposes an office-like document workspace', () => {
   }
 });
 
+test('editorial shell keeps every daily view in the full-bleed workspace', () => {
+  for (const view of ['login-view', 'portal-view', 'dashboard-view', 'publications-view', 'new-view', 'media-view']) {
+    assert.match(shell, new RegExp(`id="${view}"`));
+  }
+  assert.match(styles, /\.login-card\[hidden\], #portal-view\[hidden\], \.view\[hidden\]/);
+  assert.match(styles, /\.editor-sidebar\s*\{[^}]*border-left:\s*1px/);
+});
+
 test('editorial shell has responsive document workspace styles', () => {
   assert.match(styles, /\.document-canvas/);
   assert.match(styles, /\.editor-sidebar/);
   assert.match(styles, /\.editor-panel-view\[hidden\]\s*\{\s*display:\s*none/);
+  assert.match(styles, /\.content\s*\{[^}]*width:\s*100%/);
+  assert.match(styles, /\.panel\s*\{[^}]*border-radius:\s*0/);
+  assert.match(styles, /\.editor-main\s*\{[^}]*background:\s*transparent/);
+  assert.match(styles, /\.login-card\[hidden\].*#portal-view\[hidden\].*\.view\[hidden\]/);
   assert.match(styles, /@media \(max-width: 720px\)/);
   assert.match(styles, /prefers-color-scheme: dark/);
 });
