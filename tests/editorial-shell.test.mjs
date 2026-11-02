@@ -23,6 +23,10 @@ test('editorial shell keeps every daily view in the full-bleed workspace', () =>
   assert.match(shell, /class="editor-main"[\s\S]*class="editor-footer"[\s\S]*<\/div>\s*<\/div>\s*<aside id="editor-sidebar"/);
   assert.match(styles, /\.editor-workspace > \*, \.topbar > \*, \.page-heading > \*/);
   assert.match(styles, /\.row-actions\s*\{[^}]*flex-wrap:\s*wrap/);
+  assert.match(styles, /\.sidebar\s*\{[^}]*position:\s*fixed[^}]*height:\s*calc\(100dvh - 76px\)/);
+  assert.match(styles, /\.layout\s*\{[^}]*display:\s*block[^}]*padding-left:\s*240px/);
+  assert.match(styles, /\.topbar\s*\{[^}]*position:\s*sticky[^}]*top:\s*0[^}]*z-index:\s*20/);
+  assert.match(styles, /\.sidebar\s*\{[^}]*position:\s*static[^}]*overflow-x:\s*auto/);
 });
 
 test('editorial shell has responsive document workspace styles', () => {
