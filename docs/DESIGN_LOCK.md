@@ -1,0 +1,1 @@
+La V2 approuvée est conservée intégralement dans `src/original-v2.css` et `src/templates/*.html`; ne pas la redessiner sans validation explicite. Les ajustements sont isolés dans `src/enhancements.css`. Le portrait original est préservé.

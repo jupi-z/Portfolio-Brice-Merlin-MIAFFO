@@ -1,0 +1,4 @@
+.editorial-portal { min-height: 100vh; }
+.editorial-card { min-width: 220px; flex: 1 1 220px; }
+.editorial-help { max-width: 760px; }
+.editorial-form-field { flex: 1 1 320px; min-width: 280px; }

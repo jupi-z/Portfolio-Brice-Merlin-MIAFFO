@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_downloads","info":{"displayName":"Document download"},"attributes":{"label":{"type":"string","required":true,"pluginOptions":{"i18n":{"localized":true}}},"file":{"type":"media","allowedTypes":["files"],"multiple":false,"required":true},"description":{"type":"string","pluginOptions":{"i18n":{"localized":true}}}}}

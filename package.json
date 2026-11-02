@@ -1,0 +1,37 @@
+{
+  "name": "brice-miaffo-portfolio",
+  "private": true,
+  "version": "2.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "tsc --noEmit && vite build && node scripts/prerender.mjs",
+    "preview": "vite preview --host 0.0.0.0 --port 4173",
+    "typecheck": "tsc --noEmit",
+    "start": "node server/index.mjs",
+    "test:content": "node scripts/validate-content.mjs",
+    "test:rendering": "node scripts/test-rendering.mjs",
+    "test:smtp": "node scripts/test-smtp-local.mjs",
+    "test:smtp:error": "node scripts/test-smtp-error.mjs",
+    "test:editorial:local": "node scripts/test-editorial-local.mjs",
+    "test:server": "node --test tests/*.test.mjs",
+    "test": "npm run test:content && npm run test:rendering && npm run test:server"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "daisyui": "^5.4.0",
+    "express": "^4.21.2",
+    "nodemailer": "10.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vite": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.13.0",
+    "@types/nodemailer": "^6.4.17",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "typescript": "~5.8.2"
+  }
+}

@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_images","info":{"displayName":"Image"},"attributes":{"image":{"type":"media","allowedTypes":["images"],"multiple":false,"required":true},"alt":{"type":"string","required":true,"pluginOptions":{"i18n":{"localized":true}}},"caption":{"type":"string","pluginOptions":{"i18n":{"localized":true}}}}}

@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_quotes","info":{"displayName":"Attributed quote"},"attributes":{"text":{"type":"text","required":true,"pluginOptions":{"i18n":{"localized":true}}},"attribution":{"type":"string","pluginOptions":{"i18n":{"localized":true}}},"source":{"type":"string","pluginOptions":{"i18n":{"localized":true}}}}}

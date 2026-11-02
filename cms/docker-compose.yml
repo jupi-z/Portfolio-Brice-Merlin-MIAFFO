@@ -1,0 +1,62 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: brice-portfolio-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-brice_portfolio}
+      POSTGRES_USER: ${DATABASE_USERNAME:-brice_cms}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-change-me-local}
+    volumes:
+      - brice_portfolio_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-brice_cms} -d ${DATABASE_NAME:-brice_portfolio}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [private]
+
+  cms:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: brice-portfolio-cms
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_HOST: db
+      HOST: 0.0.0.0
+      PORT: 1337
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:1337:1337"
+    volumes:
+      - ./public/uploads:/opt/app/public/uploads
+    networks: [private]
+
+  mailpit:
+    image: axllent/mailpit:v1.32.0
+    container_name: brice-portfolio-mailpit
+    restart: unless-stopped
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      MP_ALLOWED_HOSTS: localhost,127.0.0.1,mailpit
+    ports:
+      - "127.0.0.1:8025:8025"
+      - "127.0.0.1:1025:1025"
+    volumes:
+      - brice_portfolio_mailpit:/data
+    networks: [private]
+
+volumes:
+  brice_portfolio_db:
+  brice_portfolio_mailpit:
+
+networks:
+  private:
+    driver: bridge

@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_rich_texts","info":{"displayName":"Rich text"},"attributes":{"text":{"type":"text","required":true,"pluginOptions":{"i18n":{"localized":true}}},"html":{"type":"text","required":false,"pluginOptions":{"i18n":{"localized":true}}}}}

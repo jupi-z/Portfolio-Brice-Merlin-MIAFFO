@@ -1,39 +1,69 @@
-# Portfolio — Brice Merlin MIAFFO
+# Brice Merlin MIAFFO · Portfolio Premium V2.1 (FR / EN)
 
-Portfolio personnel professionnel de Brice Merlin MIAFFO, pensé pour un futur sous-domaine du cabinet M-Y-M Advisor.
+Production-oriented React/TypeScript project based **strictly on the approved V2**. No redesign of the approved editorial art direction. Maintained separately from the MYM-ADVISOR repository.
 
-## État du projet (02 novembre 2026)
+## Start
 
-**Prototype interactif V1 — direction visuelle et éditoriale.** Ce n'est pas encore une version de production.
+```bash
+npm ci
+npm run dev
+```
 
-- `index.html` : prototype autonome (HTML/CSS/JavaScript), sans dépendance d'exécution.
-- Navigation entre six vues : Accueil, Parcours, Expertises, Formations, Perspectives et Contact.
-- Douze formations explicitement attribuées à Brice Miaffo dans le catalogue 2026–2027 ; filtre par domaine et fiches dépliables.
-- Responsive testé aux largeurs 390, 768 et 1440 px ; menu mobile, navigation et filtres fonctionnels.
-- La prise de contact utilise volontairement `mailto:`. Aucun formulaire fictif n'annonce un message envoyé.
+URLs: `/fr/` (French), `/en/` (English); each of the six pages has its own language-specific URL.
 
-## Démarrage
+## Build & run with server-side contact API
 
-Ouvrir `index.html` dans le navigateur, ou le servir depuis un serveur statique. Les liens internes du prototype utilisent le fragment d'URL (`#/accueil`, etc.) pour fonctionner même sans serveur.
+```bash
+npm run test:content
+npm run build
+cp .env.example .env      # fill the SMTP settings; never commit this file
+npm start
+```
 
-## Portrait officiel
+Use environment variables in your process manager; **this project does not automatically load `.env` in Node**. Example on Node 22: `node --env-file=.env server/index.mjs` or export them through systemd / Docker / VPS. No SMTP secrets are ever used in the client.
 
-L'emplacement du portrait est prévu dans `assets/brice-miaffo.png`. Le dépôt privé `jupi-z/MYM-ADVISOR` contient une photographie décrite comme officielle à `public/images/brice-miaffo.png`. **Cette photographie n'a pas été copiée dans ce dépôt** : il faudra obtenir ou exporter les octets originaux avec les permissions appropriées et confirmer la réutilisation.
+### Existing design is locked
 
-Si le portrait est absent, un traitement typographique `BM` est utilisé comme repli.
+- `src/original-v2.css` is the exact stylesheet of the approved V2.
+- `src/templates/` keeps the page structure and classes of the original HTML, with translatable text placeholders.
+- `src/enhancements.css` only adds the FR/EN control and contact delivery states.
+- `public/assets/brice-miaffo-portrait.webp` preserves the original approved V2 portrait.
+- `src/content/static-fr.json`, `static-en.json` contain every static text fragment from the original V2.
+- `src/content/catalogue-fr.json`, `catalogue-en.json` contain the 12 programmes, 4 expertise areas, and 4 career records in both languages.
 
-## Sources & limites éditoriales
+The source templates are intentionally used through React components and a controlled `dangerouslySetInnerHTML` boundary to guarantee pixel and DOM fidelity to V2. The content is **first-party, checked-in, immutable design material**, not user-supplied HTML. Event interaction, language routing, modal state and contact form handling are managed by React. A later refactor to JSX can be done after acceptance, but it must not silently change the design.
 
-- `CV Brice MIAFFO 2026 ENABEL.docx` (fourni dans la conversation).
-- `Catalogue_Complet_2026-2027ok (1).pdf` (catalogue M-Y-M Advisor / SPE-Fin Québec 2026–2027, fourni dans la conversation).
-- `jupi-z/MYM-ADVISOR/src/content/brice.ts` et `docs/brice-miaffo-editorial-review.md`.
+### Routes & SEO
 
-Le catalogue collectif propose 36 formations, mais le portfolio n'attribue personnellement à Brice Miaffo que les numéros **1, 2, 3, 8, 9, 10, 11, 12, 24, 34, 35 et 36** explicitement crédités à son nom.
+- `/fr/`, `/fr/parcours/`, `/fr/expertises/`, `/fr/formations/`, `/fr/perspectives/`, `/fr/contact/`
+- Matching `/en/` routes.
+- Page titles, metadata, canonical, `hreflang`, Person + WebPage JSON-LD update with navigation.
+- History API URLs require host rewriting to index.html. The included Node server and two static-host rewrite examples support this.
 
-**Avant publication :** valider avec l'intéressé les dates, l'intitulé des diplômes, le statut de la formation en IA, les chiffres de performance, les droits des visuels, les contacts à exposer et le circuit des demandes commerciales. Le catalogue original est signalé confidentiel ; ne pas le publier directement.
+**Production SEO caveat:** HTML currently renders on the client. Fully server-rendered/prerendered markup should be added if indexing guarantees are critical; client-side metadata alone does not guarantee search indexing.
 
-## Limites techniques V1
+### Forms
 
-Ce prototype n'a ni gestion de contenu, ni backend, ni formulaire serveur, ni pipeline CI/CD, ni variantes linguistiques complètes, ni déploiement DNS. Une phase d'industrialisation suivra l'approbation de la direction artistique et du contenu.
+`POST /api/contact` validates fields and performs SMTP delivery through server-only credentials. The UI announces success **only after the server confirms delivery**. When not configured or unreachable, it provides a mailto fallback and an error state.
 
-Le dépôt `jupi-z/MYM-ADVISOR` demeure indépendant et n'est pas modifié par cette première version.
+Environment: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM`, `CONTACT_TO`, `ALLOWED_ORIGIN`, `PUBLIC_SITE_URL`, and `PORT`.
+
+Production deployment requires a working Node server for forms; deploying the frontend alone on a static host will not enable email delivery. The privacy and legal notices, permissions for names and photos, and commercial routing require final confirmation.
+
+### Editorial sourcing & validations
+
+The 12 programmes were selected because the provided 2026–2027 catalogue explicitly attributes their delivery to Brice Miaffo (nos. 1, 2, 3, 8–12, 24, 34–36). Do not attribute the entire 36-programme collective catalogue to him. Statements about professional experience and diplomas are based on the supplied CV and MYM Advisor repository; independent verification of supporting records is pending. The original catalogue is marked confidential and should not be published in full.
+
+### Important
+
+**No deployment is claimed.** Hosting, domain/DNS, SMTP credentials, legal validation and a real build/runtime verification require resources or approvals beyond the source code.
+
+### Prerendering
+
+`npm run build` generates 12 static HTML pages (`dist/fr/...` and `dist/en/...`) with React server rendering and language-specific SEO tags. The Node server additionally renders CMS-backed publication lists, publication details, sitemap and RSS at request time, so Brice can publish without a frontend rebuild.
+
+### Editorial CMS
+
+The real editorial workspace is Strapi 5.60.0 with PostgreSQL in `cms/`. See [docs/CMS_EDITOR_GUIDE.md](docs/CMS_EDITOR_GUIDE.md), [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/SECURITY.md](docs/SECURITY.md). The public site remains safe and neutral when Strapi is unavailable or contains no published item.
+
+**Deploy checklist:** configure DNS and HTTPS; set real SMTP settings; test a real received message; have Brice approve all professional claims, the authorised photo, translations, and legal/privacy notices before public release.
