@@ -26,3 +26,13 @@ Lire en entier **[docs/CODEX_IMPLEMENTATION_MISSION.md](docs/CODEX_IMPLEMENTATIO
 - API contact : `server/index.mjs`; prérendu : `scripts/prerender.mjs`.
 
 **Lis le cahier des charges complet maintenant et suis-le jusqu'à des commits poussés et vérifiés sur GitHub.**
+
+## Mission active — validation locale exhaustive et SMTP Hostinger (2 novembre 2026)
+
+**Priorité de travail la plus récente :** lire et exécuter intégralement [docs/CODEX_LOCAL_QA_HOSTINGER_SMTP.md](docs/CODEX_LOCAL_QA_HOSTINGER_SMTP.md) avant de préparer une quelconque production. Cette mission précise et complète les tâches restantes du cahier des charges précédent.
+
+Le propriétaire confirme **Hostinger comme fournisseur SMTP cible**, sans avoir encore confirmé si la boîte relèvera de Hostinger Email ou Titan Email. Vérifier les paramètres officiels de chaque service, préparer les deux profils selon la boîte réellement choisie plus tard et prouver en local tous les parcours e-mail via capture SMTP. **Il ne souhaite créer aucun vrai compte de production pour le moment** : utiliser des identités, données et secrets de développement temporaires seulement. Aucun déploiement ni changement DNS, aucun merge dans `main` à ce stade.
+
+Terminer et tester à 100 % **ce qui est testable localement** : site FR/EN, publication via interface Strapi, médias, stockage, droits, migrations, sécurité, tests E2E, contact SMTP capturé, performance, accessibilité, CI et rollback. Ne pas prétendre avoir validé l'envoi réel Hostinger ni l'exploitation en production sans les comptes et secrets correspondants.
+
+Tous les résultats, corrections, scripts, tests et guides doivent être **commités et poussés au dépôt GitHub**, avec compte rendu précis sur la PR.
