@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { normalizePublication, renderPublicationBody } from '../server/publications.mjs';
+import { renderEditorialPage } from '../server/editorial-pages.mjs';
 
 test('normalizes a published Strapi document without exposing draft fields', () => {
   const publication = normalizePublication({
@@ -34,4 +35,27 @@ test('renders structured blocks as escaped safe HTML', () => {
   assert.doesNotMatch(html, /<script>/);
   assert.match(html, /Une ligne<br\/>Une autre ligne\./);
   assert.match(html, /Brice Miaffo/);
+});
+
+test('rewrites published media to the protected CMS public-media route', () => {
+  const publication = normalizePublication({
+    documentId: 'doc-media',
+    locale: 'fr',
+    publishedAt: '2026-11-01T10:00:00.000Z',
+    title: 'Publication média',
+    slug: 'publication-media',
+    editorialType: 'article',
+    excerpt: 'Résumé.',
+    cover: { id: 42, url: '/uploads/cover.webp' },
+    content: [{ __component: 'publication.image', image: { id: 43, url: '/uploads/image.webp' }, alt: 'Image' }],
+  });
+
+  assert.match(publication.cover.url, /editorial-portal\/public-media\/42$/);
+  assert.match(publication.content[0].image.url, /editorial-portal\/public-media\/43$/);
+});
+
+test('escapes JSON-LD script breakers', () => {
+  const html = renderEditorialPage({ lang: 'fr', pageTitle: 'Titre', description: 'Description', canonical: 'https://example.test/fr/', body: '<main id="main"></main>', jsonLd: { name: '</script><script>alert(1)</script>' } });
+  assert.doesNotMatch(html, /<script>alert\(1\)<\/script>/);
+  assert.match(html, /\\u003c\/script>/);
 });

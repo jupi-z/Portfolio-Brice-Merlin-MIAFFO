@@ -8,6 +8,16 @@ export const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (cha
 
 const asText = (value, max = 10000) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const attrs = (entry) => entry?.attributes && typeof entry.attributes === 'object' ? { ...entry.attributes, documentId: entry.documentId, locale: entry.locale, publishedAt: entry.publishedAt } : entry || {};
+const mediaPublicUrl = (media) => {
+  const value = attrs(media);
+  if (!value?.id) return asText(value?.url, 1000);
+  const base = (process.env.CMS_PUBLIC_URL || process.env.CMS_URL || 'http://127.0.0.1:1337').replace(/\/$/, '');
+  return `${base}/editorial-portal/public-media/${encodeURIComponent(value.id)}`;
+};
+const normalizeMedia = (media) => {
+  const value = attrs(media);
+  return value && typeof value === 'object' ? { ...value, url: mediaPublicUrl(value) } : null;
+};
 
 export function normalizePublication(entry) {
   const value = attrs(entry);
@@ -28,8 +38,12 @@ export function normalizePublication(entry) {
     slug,
     eyebrow: asText(value.eyebrow, 120),
     excerpt: asText(value.excerpt, 600),
-    content,
-    cover: value.cover?.data ? attrs(value.cover.data) : value.cover || null,
+    content: content.map((block) => {
+      if (block?.__component === 'publication.image' && block.image) return { ...block, image: normalizeMedia(block.image?.data || block.image) };
+      if (block?.__component === 'publication.download' && block.file) return { ...block, file: normalizeMedia(block.file?.data || block.file) };
+      return block;
+    }),
+    cover: normalizeMedia(value.cover?.data || value.cover),
     coverAlt: asText(value.coverAlt, 240),
     authorName: asText(value.authorName, 160) || 'Brice Merlin MIAFFO',
     category: asText(value.category, 120),
@@ -50,7 +64,7 @@ export function normalizePublication(entry) {
       metaTitle: asText(value.seo.metaTitle, 240),
       metaDescription: asText(value.seo.metaDescription, 320),
       noIndex: value.seo.noIndex === true,
-      shareImage: value.seo.shareImage || null,
+      shareImage: normalizeMedia(value.seo.shareImage?.data || value.seo.shareImage),
     } : null,
   };
 }

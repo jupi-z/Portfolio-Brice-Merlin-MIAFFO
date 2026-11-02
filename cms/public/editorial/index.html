@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
     <title>Espace éditorial · Brice Merlin MIAFFO</title>
     <link rel="stylesheet" href="./portal.css" />
   </head>
@@ -11,7 +12,7 @@
       <section id="login-view" class="login-card" hidden>
         <p class="eyebrow">BRICE MERLIN MIAFFO</p>
         <h1>Votre espace éditorial</h1>
-        <p class="muted">Publiez vos articles, études et rapports sans réglage technique.</p>
+        <p class="muted">Créez, traduisez et publiez vos contenus sans réglage technique.</p>
         <form id="login-form" class="stack">
           <label>Email<input name="email" type="email" autocomplete="username" required /></label>
           <label>Mot de passe<input name="password" type="password" autocomplete="current-password" required /></label>
@@ -31,31 +32,66 @@
             <button class="nav-item active" data-view="dashboard">Vue d’ensemble</button>
             <button class="nav-item" data-view="new">Nouvelle publication</button>
             <button class="nav-item" data-view="publications">Mes publications</button>
-            <a class="nav-item link" href="/admin" target="_blank" rel="noreferrer">Administration technique</a>
-            <div class="help"><strong>Besoin d’aide ?</strong><p>Créez un brouillon, ajoutez votre texte, puis publiez quand il est prêt.</p></div>
+            <button class="nav-item" data-view="media">Médiathèque</button>
+            <div class="help"><strong>Besoin d’aide ?</strong><p>Un brouillon peut être modifié autant de fois que nécessaire avant sa publication.</p></div>
           </aside>
           <main class="content">
             <section id="dashboard-view" class="view">
-              <div class="page-heading"><div><p class="eyebrow">VUE D’ENSEMBLE</p><h1>Bonjour, Brice</h1><p class="muted">Voici l’essentiel de votre activité éditoriale.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
+              <div class="page-heading"><div><p class="eyebrow">VUE D’ENSEMBLE</p><h1>Bonjour</h1><p class="muted">Voici l’essentiel de votre activité éditoriale.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
               <div class="stats"><article><span>Brouillons</span><strong id="draft-count">0</strong></article><article><span>Publiées</span><strong id="published-count">0</strong></article><article><span>À traduire</span><strong id="translation-count">0</strong></article></div>
               <div class="panel"><div class="panel-heading"><h2>Dernières publications</h2><button class="button quiet" data-view="publications">Tout voir</button></div><div id="recent-list" class="publication-list"></div></div>
             </section>
 
+            <section id="publications-view" class="view" hidden>
+              <div class="page-heading"><div><p class="eyebrow">PUBLICATIONS</p><h1>Mes publications</h1><p class="muted">Recherchez, modifiez et publiez vos contenus.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
+              <div class="panel filters"><label>Rechercher<input id="search" type="search" placeholder="Titre ou résumé" /></label><label>Statut<select id="status-filter"><option value="">Tous</option><option value="draft">Brouillons</option><option value="published">Publiées</option></select></label><label>Format<select id="type-filter"><option value="">Tous les formats</option><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label></div>
+              <div class="panel"><div id="all-list" class="publication-list"></div><div id="pagination" class="pagination"></div></div>
+            </section>
+
             <section id="new-view" class="view" hidden>
-              <div class="page-heading"><div><p class="eyebrow">NOUVELLE PUBLICATION</p><h1>Créer un brouillon</h1><p class="muted">Commencez avec quatre informations simples. Les détails avancés pourront être ajoutés plus tard.</p></div></div>
-              <form id="publication-form" class="panel form-grid">
-                <label class="wide">Titre<input name="title" required placeholder="Ex. Les transitions numériques en Afrique" /></label>
-                <label>Format<select name="editorialType"><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label>
-                <label>Catégorie<input name="category" value="Analyse" required /></label>
-                <label class="wide">Résumé<textarea name="excerpt" rows="5" required placeholder="Résumez le sujet en quelques lignes."></textarea></label>
-                <div class="wide form-actions"><button class="button primary" type="submit">Enregistrer le brouillon</button><button class="button quiet" type="button" data-view="dashboard">Annuler</button></div>
-                <p id="form-message" class="wide" role="status"></p>
+              <div class="page-heading"><div><p class="eyebrow" id="editor-eyebrow">NOUVELLE PUBLICATION</p><h1 id="editor-title">Créer une publication</h1><p class="muted">Remplissez les champs essentiels, puis complétez les détails si nécessaire.</p></div><button class="button quiet" data-view="publications">Retour à la liste</button></div>
+              <form id="publication-form" class="editor-form">
+                <input type="hidden" name="documentId" />
+                <div class="panel form-grid">
+                  <label class="wide">Langue<select name="locale"><option value="fr">Français</option><option value="en">English</option></select></label>
+                  <label class="wide">Titre<input name="title" required /></label>
+                  <label class="wide">Surtitre <small class="hint">Texte court affiché au-dessus du titre</small><input name="eyebrow" /></label>
+                  <label>Format<select name="editorialType" required><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label>
+                  <label>Catégorie<input name="category" value="Analyse" required /></label>
+                  <label>Slug<input name="slug" required /><small class="hint">Utilisé dans l’adresse de la page.</small></label>
+                  <label>Auteur<input name="authorName" value="Brice Merlin MIAFFO" /></label>
+                  <label class="wide">Résumé<textarea name="excerpt" rows="4" required></textarea></label>
+                  <label>Tags <small class="hint">Séparés par des virgules</small><input name="tags" /></label>
+                  <label>Temps de lecture <small class="hint">En minutes</small><input name="readingTime" type="number" min="1" max="180" /></label>
+                  <label class="wide check"><input name="featured" type="checkbox" /> Mettre en avant cette publication</label>
+                  <label>Date des données <input name="dataDate" type="date" /></label>
+                  <label>Autorisation<select name="publicationAuthorization"><option value="not-required">Non requise</option><option value="pending">À confirmer</option><option value="confirmed">Confirmée</option></select></label>
+                </div>
+
+                <div class="panel"><div class="panel-heading"><div><h2>Contenu</h2><p class="muted">Ajoutez les blocs dans l’ordre de lecture.</p></div><div class="block-actions"><button class="button quiet small" type="button" data-add-block="rich-text">Texte</button><button class="button quiet small" type="button" data-add-block="heading">Titre</button><button class="button quiet small" type="button" data-add-block="quote">Citation</button><button class="button quiet small" type="button" data-add-block="callout">Encadré</button><button class="button quiet small" type="button" data-add-block="table">Tableau</button><button class="button quiet small" type="button" data-add-block="image">Image</button><button class="button quiet small" type="button" data-add-block="download">PDF</button></div></div><div id="blocks" class="blocks"></div></div>
+
+                <div class="panel form-grid"><div class="wide"><h2>Image de couverture</h2><p class="muted">Choisissez un média déjà importé ou ouvrez la médiathèque pour en ajouter un.</p></div><label class="wide">Image<select name="coverId" id="cover-media"><option value="">Aucune image</option></select></label><label class="wide">Texte alternatif<input name="coverAlt" /></label></div>
+
+                <div class="panel form-grid">
+                  <label class="wide">Méthodologie<textarea name="methodology" rows="3"></textarea></label>
+                  <label class="wide">Périmètre<textarea name="scope" rows="3"></textarea></label>
+                  <label class="wide">Limites<textarea name="limitations" rows="3"></textarea></label>
+                  <label class="wide">Références <small class="hint">Une référence par ligne</small><textarea name="references" rows="4"></textarea></label>
+                </div>
+
+                <div class="panel form-grid">
+                  <label class="wide">Titre SEO<input name="metaTitle" maxlength="70" /></label>
+                  <label class="wide">Description SEO<textarea name="metaDescription" rows="3" maxlength="170"></textarea></label>
+                  <label class="check"><input name="noIndex" type="checkbox" /> Ne pas indexer cette page</label>
+                </div>
+                <div class="form-actions"><button class="button primary" type="submit">Enregistrer le brouillon</button><button class="button quiet" type="button" data-action="translate">Préparer la traduction anglaise</button><button class="button quiet" type="button" data-action="preview">Prévisualiser</button><p id="form-message" role="status"></p></div>
               </form>
             </section>
 
-            <section id="publications-view" class="view" hidden>
-              <div class="page-heading"><div><p class="eyebrow">PUBLICATIONS</p><h1>Mes publications</h1><p class="muted">Retrouvez vos brouillons et vos contenus publiés.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
-              <div class="panel"><div id="all-list" class="publication-list"></div></div>
+            <section id="media-view" class="view" hidden>
+              <div class="page-heading"><div><p class="eyebrow">MÉDIATHÈQUE</p><h1>Images et documents</h1><p class="muted">Importez les fichiers utilisés dans vos publications.</p></div><button class="button quiet" data-view="publications">Retour aux publications</button></div>
+              <div class="panel"><form id="media-form" class="form-actions"><input id="media-files" type="file" accept="image/jpeg,image/png,image/webp,image/avif,application/pdf" multiple required /><button class="button primary" type="submit">Importer</button><p id="media-message" role="status"></p></form><p class="hint">JPG, PNG, WebP, AVIF et PDF · 12 Mo maximum par fichier.</p></div>
+              <div class="panel"><div id="media-list" class="media-list"></div></div>
             </section>
           </main>
         </div>

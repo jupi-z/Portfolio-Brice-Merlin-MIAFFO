@@ -10,6 +10,7 @@ const config: Core.Config.Middlewares = [
   'strapi::body',
   'strapi::session',
   'strapi::favicon',
+  { resolve: './src/middlewares/private-uploads', config: {} },
   'strapi::public',
 ];
 

@@ -3,34 +3,66 @@
 ## Démarrer le CMS en local
 
 1. Copier `cms/.env.example` vers `cms/.env`.
-2. Remplacer toutes les valeurs `replace-with-*` par des valeurs locales fortes. Ne jamais commiter `cms/.env`.
-3. Depuis la racine (PostgreSQL, Strapi et Mailpit) :
+2. Remplacer les valeurs `replace-with-*` par des valeurs locales fortes. Ne jamais commiter `cms/.env`.
+3. Vérifier `EDITORIAL_ALLOWED_ROLES`. En local, le compte QA peut être Super Admin ; en production, créer le rôle Strapi `Editorial Editor` puis l’associer à Brice.
+4. Depuis la racine :
 
 ```powershell
 docker compose --env-file cms/.env -f cms/docker-compose.yml up --build -d
 ```
 
-4. Ouvrir `http://127.0.0.1:1337/admin` et créer le premier administrateur.
-5. Dans Settings > Global Settings > Internationalization, vérifier les locales `fr` et `en`.
-6. Dans Settings > Users & Permissions, créer un rôle éditeur limité à Publication et Media.
-7. Créer un token API de lecture uniquement, limité à `Publication.find` et `Publication.findOne`, puis placer sa valeur dans `CMS_API_TOKEN` du `.env` racine du serveur public.
+5. Ouvrir **http://127.0.0.1:1337/editorial/**.
+6. Utiliser un compte local autorisé pour la QA. Aucun compte de production ne doit être inventé.
 
-La boîte locale de capture est disponible sur `http://127.0.0.1:8025`. Elle ne délivre aucun message vers Internet. Vérifier la connexion et l'envoi de test dans Settings > Email plugin > Configuration.
+Le portail personnalisé est l’interface quotidienne. Il ne faut pas ouvrir `/admin` pour rédiger, traduire, importer un média, prévisualiser, publier ou supprimer une publication. `/admin` est réservé à la maintenance technique, aux réglages de permissions et aux opérations de secours.
 
-Le test reproductible des formulaires est `npm run test:smtp` depuis la racine. Il exige Mailpit démarré, capture un message français et un message anglais, contrôle les sujets puis supprime les messages de test.
+La boîte locale de capture est disponible sur `http://127.0.0.1:8025`. Le test reproductible des formulaires est `npm run test:smtp` depuis la racine.
 
-## Créer et publier une publication
+## Utiliser le portail éditorial
 
-Dans Content Manager > Publication :
+### Créer et modifier
 
-1. Choisir le type éditorial, le titre, le slug, le résumé, la catégorie et le temps de lecture.
-2. Composer le contenu avec les blocs Heading, Rich text, Image, Quote, Callout, Table ou Download.
-3. Renseigner l’alt text de chaque image et ne téléverser que des fichiers autorisés et utiles.
-4. Enregistrer le français comme brouillon, puis créer la localisation anglaise dans la même entrée.
-5. Vérifier les métadonnées SEO et les champs d’étude/cas lorsque pertinents.
-6. Prévisualiser localement, demander la relecture humaine, puis publier séparément chaque langue.
+1. Cliquer sur **Nouvelle publication**.
+2. Choisir la langue, le format et la catégorie.
+3. Saisir le titre, le résumé et les tags. Le slug est proposé automatiquement et reste modifiable.
+4. Ajouter les blocs Texte, Titre, Citation, Encadré, Image et PDF.
+5. Compléter les champs d’étude : méthodologie, périmètre, limites et références.
+6. Renseigner les métadonnées SEO et l’image de couverture depuis la médiathèque.
+7. Cliquer sur **Enregistrer le brouillon**. Le contenu peut être rouvert et modifié sans publication.
 
-Un brouillon n’apparaît ni dans la liste publique, ni dans les recherches, ni dans le sitemap, ni dans le flux RSS. Une traduction non publiée n’est pas proposée comme lien alternatif.
+### Traduire et prévisualiser
+
+1. Depuis une publication française enregistrée, cliquer sur **Préparer la traduction anglaise**.
+2. Traduire les champs dans l’éditeur English.
+3. Cliquer sur **Prévisualiser** : l’aperçu est privé et nécessite la session du portail.
+4. Publier chaque langue séparément après relecture.
+
+### Publier, dépublier et supprimer
+
+- **Publier** rend la langue sélectionnée publique sans reconstruire le frontend.
+- **Dépublier** retire la langue des pages publiques, du sitemap et du flux RSS.
+- **Supprimer** supprime la publication et toutes ses traductions ; cette action demande confirmation.
+
+Un brouillon n’apparaît jamais dans les pages publiques. Les recherches, filtres et pages de liste passent par l’API du portail.
+
+### Médias
+
+La médiathèque accepte les fichiers JPG, PNG, WebP, AVIF et PDF de 12 Mo maximum. Un média peut être ouvert depuis la liste ou sélectionné comme couverture/bloc. Un fichier rejeté n’est pas enregistré. Les URL brutes `/uploads/*` ne sont pas publiques ; les images et PDF publiés passent par le proxy CMS contrôlé par publication.
+
+## Scénario QA reproductible
+
+Le scénario suivant exige uniquement un compte local temporaire transmis par l’environnement, jamais par Git :
+
+```powershell
+$editorialQaEmail = 'compte-local@example.test'
+$editorialQaPassword = 'mot-de-passe-local'
+$env:EDITORIAL_QA_EMAIL = $editorialQaEmail
+$env:EDITORIAL_QA_PASSWORD = $editorialQaPassword
+npm run test:editorial:local
+Remove-Item Env:EDITORIAL_QA_EMAIL,Env:EDITORIAL_QA_PASSWORD
+```
+
+Il vérifie la connexion par cookie, la création, la réouverture, les blocs, la traduction EN, l’aperçu, la publication FR/EN, la dépublication et la suppression complète.
 
 ## Sauvegarde
 
@@ -39,14 +71,4 @@ Un brouillon n’apparaît ni dans la liste publique, ni dans les recherches, ni
 ./cms/scripts/restore.ps1 -InputFile ./backups/brice-portfolio-YYYYMMDD-HHmmss.dump
 ```
 
-Les volumes PostgreSQL et les uploads doivent être sauvegardés ensemble. PostgreSQL reste sur le réseau Docker privé et n’est pas publié sur Internet.
-
-Les scripts de sauvegarde/restauration utilisent le flux binaire PowerShell 7 et ciblent explicitement `cms/.env` et `cms/docker-compose.yml`. Ils ont été vérifiés localement avec un dump PostgreSQL non conservé dans Git.
-# Portail éditorial simplifié
-
-Pour l’administration quotidienne, utiliser **http://127.0.0.1:1337/editorial/**.
-
-Ce portail ne montre que les actions utiles : vue d’ensemble, nouvelle publication et liste des publications. Il utilise les identifiants administrateur Strapi et les permissions Strapi existantes, sans dupliquer les données ni créer un second système d’authentification. Le lien « Administration technique » ouvre l’interface Strapi complète uniquement lorsque cela est nécessaire.
-
-L’URL `/admin` reste réservée aux réglages techniques, aux permissions, aux médias avancés et à la maintenance.
-
+PostgreSQL et les uploads doivent être sauvegardés ensemble. La restauration doit être testée sur une instance locale séparée avant toute mise en production.
