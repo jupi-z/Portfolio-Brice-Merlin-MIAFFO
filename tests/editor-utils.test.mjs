@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { estimateReadingTime, normalizeEditorBlock, serializeEditorBlocks, slugifyTitle, suggestSeo } from '../cms/public/editorial/editor-utils.mjs';
+import { createAutosaveController, estimateReadingTime, normalizeEditorBlock, serializeEditorBlocks, slugifyTitle, suggestSeo } from '../cms/public/editorial/editor-utils.mjs';
 
 test('slugifyTitle creates an accented, stable editorial slug', () => {
   assert.equal(slugifyTitle('Économie & développement durable'), 'economie-et-developpement-durable');
@@ -41,4 +41,18 @@ test('serializeEditorBlocks preserves structured block contracts', () => {
     { __component: 'publication.image', image: 7, alt: 'Illustration', caption: 'Légende' },
     { __component: 'publication.table', caption: 'Tableau', headers: ['A', 'B'], rows: [['1', '2'], ['3', '4']] },
   ]);
+});
+
+test('createAutosaveController debounces and flushes only eligible drafts', async () => {
+  const calls = [];
+  let eligible = false;
+  const controller = createAutosaveController({ delay: 20, shouldSave: () => eligible, save: async () => calls.push('saved') });
+
+  assert.equal(controller.schedule(), false);
+  eligible = true;
+  assert.equal(controller.schedule(), true);
+  controller.schedule();
+  await controller.flush();
+  assert.deepEqual(calls, ['saved']);
+  assert.equal(controller.pending(), false);
 });

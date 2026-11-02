@@ -76,3 +76,22 @@ export function serializeEditorBlocks(blocks = []) {
     return { __component: 'publication.rich-text', text: asText(block.text), ...(asText(block.html) ? { html: block.html } : {}) };
   });
 }
+
+export function createAutosaveController({ delay = 900, shouldSave = () => true, save }) {
+  let timer = null;
+  let scheduled = false;
+  const schedule = () => {
+    if (!shouldSave()) return false;
+    if (timer) clearTimeout(timer);
+    scheduled = true;
+    timer = setTimeout(() => {
+      timer = null;
+      scheduled = false;
+      Promise.resolve(save()).catch(() => {});
+    }, delay);
+    return true;
+  };
+  const cancel = () => { if (timer) clearTimeout(timer); timer = null; scheduled = false; };
+  const flush = async () => { if (!scheduled) return; cancel(); await save(); };
+  return { schedule, cancel, flush, pending: () => scheduled };
+}
