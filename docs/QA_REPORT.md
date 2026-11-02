@@ -29,7 +29,7 @@
 | Pagination et sitemap | PASS — pagination serveur du portail et collecte multi-pages publiques |
 | Sauvegarde/restauration PostgreSQL | PASS — `cms/scripts/verify-backup.ps1`, dump puis restauration dans une base temporaire isolée |
 | Nettoyage QA | PASS — publications et médias temporaires supprimés ; aucune ligne `qa-local*` ni fichier `qa_local_*` restant |
-| Vérification visuelle | PASS ciblé — connexion, tableau de bord, publications, médiathèque, éditeur document, onglets Publication/Traduction/SEO et bas d’éditeur avec options avancées ; interface plein écran sans cartes, navigation latérale fixe sur desktop, pied d’actions maintenu dans la colonne document et garde-fous responsive contrôlés dans le navigateur local |
+| Vérification visuelle | PASS ciblé — connexion, tableau de bord, publications, médiathèque, éditeur document, onglets Publication/Traduction/SEO et bas d’éditeur avec options avancées ; interface plein écran sans cartes, header fixe sur desktop, navigation latérale fixe avec aide ancrée en bas, pied d’actions maintenu dans la colonne document et garde-fous responsive contrôlés dans le navigateur local |
 
 ## Administration temporaire
 

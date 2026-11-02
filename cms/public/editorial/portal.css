@@ -73,12 +73,13 @@
 .login-card[hidden], #portal-view[hidden], .view[hidden] { display: none; }
 .content { width: 100%; max-width: none; margin: 0; padding: clamp(24px, 3vw, 48px) clamp(20px, 4vw, 72px); }
 .view { min-height: calc(100dvh - 76px); }
-.layout { display: block; padding-left: 240px; }
-.topbar { position: sticky; top: 0; z-index: 20; }
-.sidebar { position: fixed; top: 76px; left: 0; z-index: 10; width: 240px; height: calc(100dvh - 76px); overflow-x: hidden; overflow-y: auto; scrollbar-gutter: stable; }
+.layout { display: block; padding-top: 76px; padding-left: 240px; }
+.topbar { position: fixed; inset: 0 0 auto; z-index: 20; }
+.sidebar { position: fixed; top: 76px; left: 0; z-index: 10; display: flex; width: 240px; height: calc(100dvh - 76px); flex-direction: column; overflow-x: hidden; overflow-y: auto; scrollbar-gutter: stable; }
+.help { margin-top: auto; }
 .login-card { display: grid; align-content: center; width: 100%; min-height: 100dvh; margin: 0; padding: clamp(28px, 7vw, 88px) clamp(20px, 8vw, 160px); background: var(--strapi-bg); border: 0; border-radius: 0; box-shadow: none; }
 .login-card > * { width: min(640px, 100%); margin-inline: auto; }
-.help { margin: 32px 8px 0; padding: 20px 8px 0; background: transparent; border-top: 1px solid var(--strapi-border); border-radius: 0; }
+.help { margin: auto 8px 0; padding: 20px 8px 0; background: transparent; border-top: 1px solid var(--strapi-border); border-radius: 0; }
 .stats { gap: 0; margin-bottom: 32px; border-block: 1px solid var(--strapi-border); }
 .stats article { min-height: 110px; padding: 20px 24px 20px 0; background: transparent; border: 0; border-right: 1px solid var(--strapi-border); border-radius: 0; }
 .stats article:last-child { border-right: 0; padding-left: 24px; }
@@ -105,12 +106,12 @@
 }
 @media (max-width: 720px) {
   .content { padding: 24px 16px; }
-  .topbar { flex-wrap: wrap; }
-  .layout { padding-left: 0; }
+  .topbar { position: sticky; flex-wrap: wrap; }
+  .layout { padding-top: 0; padding-left: 0; }
   .stats { grid-template-columns: 1fr; }
   .stats article, .stats article:not(:first-child), .stats article:last-child { min-height: auto; padding: 16px 0; border-right: 0; border-bottom: 1px solid var(--strapi-border); }
   .stats article:last-child { border-bottom: 0; }
-  .sidebar { position: static; width: auto; height: auto; overflow-x: auto; overflow-y: hidden; scrollbar-gutter: auto; }
+  .sidebar { position: static; width: auto; height: auto; flex-direction: row; overflow-x: auto; overflow-y: hidden; scrollbar-gutter: auto; }
   .publication { display: grid; grid-template-columns: minmax(0, 1fr); align-items: start; }
   .publication .row-actions { justify-content: flex-start; }
   .editor-sidebar { padding-top: 20px; }
