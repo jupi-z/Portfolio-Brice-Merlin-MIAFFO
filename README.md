@@ -57,3 +57,9 @@ The 12 programmes were selected because the provided 2026–2027 catalogue expli
 ### Important
 
 **No deployment is claimed.** Hosting, domain/DNS, SMTP credentials, legal validation and a real build/runtime verification require resources or approvals beyond the source code.
+
+### Prerendering
+
+`npm run build` now generates 12 static HTML pages (`dist/fr/...` and `dist/en/...`) with React server rendering and language-specific SEO tags. The Node server serves these actual HTML files. The included sitemap lists both languages; the static-host configurations redirect only `/` to `/fr/`.
+
+**Deploy checklist:** configure DNS and HTTPS; set real SMTP settings; test a real received message; have Brice approve all professional claims, the authorised photo, translations, and legal/privacy notices before public release.

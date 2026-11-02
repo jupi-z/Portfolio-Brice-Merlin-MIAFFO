@@ -74,6 +74,12 @@ if(!fs.existsSync(build)){
 }
 app.use(express.static(build,{index:false,maxAge:'1d'}));
 app.get('/',(_req,res)=>res.redirect(302,'/fr/'));
-app.get(/^\/(fr|en)(\/.*)?$/,(_req,res)=>res.sendFile(path.join(build,'index.html')));
+app.get(/^\/(fr|en)(\/.*)?$/, (req,res)=>{
+ const parts=req.path.split('/').filter(Boolean);
+ if(parts.length>2||!['fr','en'].includes(parts[0])||(parts[1]&&!['parcours','expertises','formations','perspectives','contact'].includes(parts[1])))return res.status(404).send('Not found');
+ const file=path.join(build,...parts,'index.html');
+ if(fs.existsSync(file))return res.sendFile(file);
+ return res.sendFile(path.join(build,'index.html'));
+});
 app.use((_req,res)=>res.status(404).json({ok:false,code:'not_found'}));
 app.listen(port,'0.0.0.0',()=>console.log(`Brice Miaffo portfolio listening on :${port}`));
