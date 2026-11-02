@@ -14,7 +14,7 @@ Permettre à Brice de gérer ses publications sans connaître Strapi, les compos
 - Afficher des erreurs compréhensibles et confirmer clairement chaque action sensible.
 - Conserver l’authentification, les permissions et le stockage dans Strapi/PostgreSQL.
 - Ajouter un parcours d’accueil guidé permettant une première publication sans documentation externe.
-- Reprendre le langage visuel Premium V2 sans réutiliser mécaniquement les templates publics : le portail aura sa propre structure d’administration et ses propres composants fonctionnels.
+- Utiliser prioritairement le Design System natif de Strapi pour les composants du portail — champs, boutons, tableaux, alertes, modales, espacements et états — sans réutiliser les templates publics du portfolio.
 
 ## Parcours utilisateur cible
 
@@ -53,7 +53,7 @@ Permettre à Brice de gérer ses publications sans connaître Strapi, les compos
 
 ## Direction visuelle du portail
 
-Le portail réutilisera les tokens visuels du portfolio — palette, typographies, contrastes, rayons, bordures, espacements et principes clair/sombre — afin de rester cohérent avec l’identité Premium V2. Il ne réutilisera pas les templates de pages publiques (`home`, `parcours`, `expertises`, `formations`, `contact`) comme structure d'écran : un back office doit privilégier la lisibilité, les étapes et les actions éditoriales.
+Le portail adoptera le Design System officiel de Strapi afin que ses contrôles soient immédiatement cohérents avec l'environnement CMS : champs, boutons, sélecteurs, tableaux, notifications, confirmations et responsive behavior. Il ne réutilisera pas les templates de pages publiques (`home`, `parcours`, `expertises`, `formations`, `contact`) comme structure d'écran : un back office doit privilégier la lisibilité, les étapes et les actions éditoriales. La structure fonctionnelle restera personnalisée pour Brice, même si les composants visuels viennent de Strapi.
 
 ## Sécurité et confidentialité
 
