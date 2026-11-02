@@ -11,6 +11,6 @@ test('simplified editorial portal ships as an independent Strapi-served shell', 
   assert.match(html, /Administration technique/);
   assert.match(css, /--strapi-primary/);
   assert.match(js, /\/admin\/login/);
-  assert.match(js, /content-manager\/collection-types/);
+  assert.match(js, /editorial-portal\/publications/);
   assert.doesNotMatch(js, /BriceLocalQA2026|SMTP_PASS|ADMIN_JWT_SECRET/);
 });
