@@ -17,6 +17,7 @@ test('editorial shell exposes an office-like document workspace', () => {
 test('editorial shell has responsive document workspace styles', () => {
   assert.match(styles, /\.document-canvas/);
   assert.match(styles, /\.editor-sidebar/);
+  assert.match(styles, /\.editor-panel-view\[hidden\]\s*\{\s*display:\s*none/);
   assert.match(styles, /@media \(max-width: 720px\)/);
   assert.match(styles, /prefers-color-scheme: dark/);
 });

@@ -1,4 +1,4 @@
-import { createAutosaveController, estimateReadingTime, normalizeEditorBlock, serializeEditorBlocks, slugifyTitle, suggestSeo } from './editor-utils.mjs';
+import { applySeoSuggestions, createAutosaveController, estimateReadingTime, normalizeEditorBlock, seoChecks, serializeEditorBlocks, slugifyTitle } from './editor-utils.mjs';
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const api = async (path, options = {}) => {
@@ -44,27 +44,20 @@ function updateDerived() {
   const title = value('title');
   if (!state.slugManual) setValue('slug', slugifyTitle(title));
   setValue('readingTime', estimateReadingTime(state.blocks));
-  const seo = suggestSeo({ title, excerpt: value('excerpt'), blocks: state.blocks });
-  if (!state.seoOverrides.title) setValue('metaTitle', seo.metaTitle);
-  if (!state.seoOverrides.description) setValue('metaDescription', seo.metaDescription);
+  const seo = applySeoSuggestions({ metaTitle: value('metaTitle'), metaDescription: value('metaDescription'), manualTitle: state.seoOverrides.title, manualDescription: state.seoOverrides.description }, { title, excerpt: value('excerpt'), blocks: state.blocks });
+  setValue('metaTitle', seo.metaTitle); setValue('metaDescription', seo.metaDescription);
   updateSeoPanel();
 }
 
 function updateSeoPanel() {
   const title = value('title');
   const excerpt = value('excerpt');
-  const checks = [
-    [title.length >= 20 && title.length <= 70, 'Le titre est suffisamment explicite.'],
-    [excerpt.length >= 50, 'Le résumé aide les moteurs et les lecteurs.'],
-    [Boolean(value('slug')), 'L’adresse de la publication est prête.'],
-    [state.blocks.length > 0, 'Le contenu contient au moins un élément.'],
-    [state.blocks.filter((block) => block.__component === 'publication.image').every((block) => Boolean(block.alt)), 'Les images ont un texte alternatif.'],
-  ];
-  const warnings = checks.filter(([ok]) => !ok);
+  const checks = seoChecks({ title, excerpt, slug: value('slug'), blocks: state.blocks });
+  const warnings = checks.filter((check) => !check.ok);
   const score = $('#seo-score');
   if (score) { score.textContent = warnings.length ? `${checks.length - warnings.length}/${checks.length} contrôles SEO — à compléter` : 'SEO prêt — les réglages techniques seront générés automatiquement'; score.classList.toggle('warning', warnings.length > 0); }
   const checklist = $('#seo-checklist');
-  if (checklist) { checklist.replaceChildren(); checks.forEach(([ok, label]) => { const item = document.createElement('li'); item.className = ok ? 'ok' : 'warn'; item.textContent = label; checklist.append(item); }); }
+  if (checklist) { checklist.replaceChildren(); checks.forEach(({ ok, label }) => { const item = document.createElement('li'); item.className = ok ? 'ok' : 'warn'; item.textContent = label; checklist.append(item); }); }
   const previewTitle = $('#seo-preview-title'); if (previewTitle) previewTitle.textContent = value('metaTitle') || title || 'Titre de la publication';
   const previewDescription = $('#seo-preview-description'); if (previewDescription) previewDescription.textContent = value('metaDescription') || excerpt || 'La description apparaîtra ici.';
   const previewUrl = $('#seo-preview-url'); if (previewUrl) previewUrl.textContent = `brice-miaffo.com/perspectives/${value('slug') || '...'}`;

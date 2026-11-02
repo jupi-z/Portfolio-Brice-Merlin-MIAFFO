@@ -48,6 +48,7 @@
 .panel-tab { padding: 8px 4px; color: var(--strapi-muted); background: transparent; border: 0; border-bottom: 2px solid transparent; font-size: 12px; font-weight: 700; }
 .panel-tab.active, .panel-tab:hover { color: var(--strapi-primary); border-bottom-color: var(--strapi-primary); }
 .editor-panel-view { display: grid; gap: 14px; }
+.editor-panel-view[hidden] { display: none; }
 .editor-panel-view label { gap: 5px; font-size: 12px; }
 .editor-panel-view input, .editor-panel-view select, .editor-panel-view textarea { padding: 9px 10px; font-size: 13px; }
 .panel-lead { color: var(--strapi-muted); font-size: 12px; line-height: 1.5; }

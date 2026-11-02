@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { createAutosaveController, estimateReadingTime, normalizeEditorBlock, serializeEditorBlocks, slugifyTitle, suggestSeo } from '../cms/public/editorial/editor-utils.mjs';
+import { applySeoSuggestions, createAutosaveController, estimateReadingTime, normalizeEditorBlock, seoChecks, serializeEditorBlocks, slugifyTitle, suggestSeo } from '../cms/public/editorial/editor-utils.mjs';
 
 test('slugifyTitle creates an accented, stable editorial slug', () => {
   assert.equal(slugifyTitle('Économie & développement durable'), 'economie-et-developpement-durable');
@@ -55,4 +55,16 @@ test('createAutosaveController debounces and flushes only eligible drafts', asyn
   await controller.flush();
   assert.deepEqual(calls, ['saved']);
   assert.equal(controller.pending(), false);
+});
+
+test('applySeoSuggestions preserves manual overrides and fills automatic values', () => {
+  const result = applySeoSuggestions({ metaTitle: 'Titre choisi', metaDescription: '', manualTitle: true, manualDescription: false }, { title: 'Titre éditorial', excerpt: 'Un résumé suffisamment long pour être utilisé comme description automatique.' });
+  assert.equal(result.metaTitle, 'Titre choisi');
+  assert.match(result.metaDescription, /résumé suffisamment long/);
+});
+
+test('seoChecks reports missing image alternative text in plain language', () => {
+  const checks = seoChecks({ title: 'Titre assez descriptif pour le contrôle', excerpt: 'Résumé suffisamment long pour aider le lecteur et les moteurs de recherche.', slug: 'titre-assez-descriptif', blocks: [{ __component: 'publication.image', alt: '' }] });
+  assert.equal(checks.find((check) => check.key === 'image-alt')?.ok, false);
+  assert.match(checks.find((check) => check.key === 'image-alt')?.label || '', /images/);
 });

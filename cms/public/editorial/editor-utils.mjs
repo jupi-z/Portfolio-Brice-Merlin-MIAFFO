@@ -40,6 +40,24 @@ export function suggestSeo({ title = '', excerpt = '', blocks = [] } = {}) {
   };
 }
 
+export function applySeoSuggestions({ metaTitle = '', metaDescription = '', manualTitle = false, manualDescription = false } = {}, context = {}) {
+  const suggestions = suggestSeo(context);
+  return {
+    metaTitle: manualTitle ? metaTitle : suggestions.metaTitle,
+    metaDescription: manualDescription ? metaDescription : suggestions.metaDescription,
+  };
+}
+
+export function seoChecks({ title = '', excerpt = '', slug = '', blocks = [] } = {}) {
+  return [
+    { key: 'title', ok: title.length >= 20 && title.length <= 70, label: 'Le titre est suffisamment explicite.' },
+    { key: 'excerpt', ok: excerpt.length >= 50, label: 'Le résumé aide les moteurs et les lecteurs.' },
+    { key: 'slug', ok: Boolean(slug), label: 'L’adresse de la publication est prête.' },
+    { key: 'content', ok: blocks.length > 0, label: 'Le contenu contient au moins un élément.' },
+    { key: 'image-alt', ok: blocks.filter((block) => block.__component === 'publication.image').every((block) => Boolean(block.alt)), label: 'Les images ont un texte alternatif.' },
+  ];
+}
+
 export function normalizeEditorBlock(block = {}) {
   const normalized = { ...block };
   if (normalized.__component === 'publication.table') {

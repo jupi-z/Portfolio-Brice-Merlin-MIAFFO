@@ -48,7 +48,7 @@ if (email && password) {
     await assert.rejects(request('/editorial-portal/publications', { method: 'POST', body: JSON.stringify({ locale: 'fr', data: { title: 'QA image incomplete', slug: `${slug}-invalid`, editorialType: 'article', category: 'QA', excerpt: 'Résumé', content: [{ __component: 'publication.image', caption: 'Sans média' }] } }) }), /400/);
     const invalidSearch = await request(`/editorial-portal/publications?search=${encodeURIComponent(`${slug}-invalid`)}&pageSize=50`);
     assert.equal((invalidSearch.data || []).some((item) => item.slug === `${slug}-invalid`), false, 'Une publication invalide ne doit pas être persistée');
-    const created = await request('/editorial-portal/publications', { method: 'POST', body: JSON.stringify({ locale: 'fr', data: { title: 'QA publication locale', slug, editorialType: 'study', category: 'QA', excerpt: 'Résumé temporaire', coverId: imageId, coverAlt: 'Image QA', content: [{ __component: 'publication.image', image: imageId, alt: 'Image QA', caption: 'Média QA' }] } }) });
+    const created = await request('/editorial-portal/publications', { method: 'POST', body: JSON.stringify({ locale: 'fr', data: { title: 'QA publication locale', slug, editorialType: 'study', category: 'QA', excerpt: 'Résumé temporaire', coverId: imageId, coverAlt: 'Image QA', content: [{ __component: 'publication.rich-text', text: 'Texte temporaire important', html: '<p>Texte temporaire <strong>important</strong></p>' }, { __component: 'publication.image', image: imageId, alt: 'Image QA', caption: 'Média QA' }] } }) });
     documentId = created.data.documentId;
     assert.equal(created.data.status, 'draft');
     assert.equal(await status(rawImagePath), 404);
@@ -56,7 +56,8 @@ if (email && password) {
     assert.equal(await status(`/editorial-portal/media/${imageId}/file`, { Cookie: cookie }), 200);
     const reopened = await request(`/editorial-portal/publications/${documentId}?locale=fr`);
     assert.equal(reopened.data.title, 'QA publication locale');
-    assert.equal(reopened.data.content.length, 1);
+    assert.equal(reopened.data.content.length, 2);
+    assert.match(reopened.data.content[0].html, /<strong>important<\/strong>/);
     const translated = await request(`/editorial-portal/publications/${documentId}/translate`, { method: 'POST', body: JSON.stringify({ data: { title: 'QA local publication', slug: `${slug}-en`, editorialType: 'study', category: 'QA', excerpt: 'Temporary summary', content: [{ __component: 'publication.rich-text', text: 'Temporary content' }] } }) });
     assert.equal(translated.data.locale, 'en');
     assert.equal(translated.data.documentId, documentId);
@@ -86,6 +87,7 @@ if (email && password) {
       const rssXml = await rss.text();
       assert.match(frHtml, /hreflang="en"/);
       assert.match(frHtml, /QA publication locale/);
+      assert.match(frHtml, /<strong>important<\/strong>/);
       assert.match(enHtml, /QA local publication/);
       assert.match(listHtml, /QA publication locale/);
       assert.match(sitemapXml, new RegExp(`/fr/perspectives/${slug}/`));
@@ -95,13 +97,16 @@ if (email && password) {
     assert.equal(unpublished.data.status, 'draft');
     assert.equal(await status(`/editorial-portal/public-media/${imageId}`), 404);
     if (publicBaseUrl) assert.equal((await publicResponse(`/fr/perspectives/${slug}/`)).status, 404);
+    const unpublishedEnglish = await request(`/editorial-portal/publications/${documentId}/unpublish`, { method: 'POST', body: JSON.stringify({ locale: 'en' }) });
+    assert.equal(unpublishedEnglish.data.status, 'draft');
+    if (publicBaseUrl) assert.equal((await publicResponse(`/en/perspectives/${slug}-en/`)).status, 404);
     console.log(`PASS editorial local workflow (${documentId})`);
   } finally {
-    await Promise.all(mediaIds.map((id) => request(`/editorial-portal/media/${id}`, { method: 'DELETE' }).catch(() => {})));
     if (documentId) {
       await request(`/editorial-portal/publications/${documentId}`, { method: 'DELETE' }).catch(() => {});
       const remaining = await request(`/editorial-portal/publications?search=${encodeURIComponent(slug)}&pageSize=50`).catch(() => ({ data: [] }));
       assert.equal((remaining.data || []).some((item) => item.documentId === documentId), false);
     }
+    await Promise.all(mediaIds.map((id) => request(`/editorial-portal/media/${id}`, { method: 'DELETE' }).catch(() => {})));
   }
 }
