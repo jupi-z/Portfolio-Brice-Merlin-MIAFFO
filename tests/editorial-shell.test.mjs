@@ -7,14 +7,16 @@ const styles = fs.readFileSync(new URL('../cms/public/editorial/portal.css', imp
 const portalScript = fs.readFileSync(new URL('../cms/public/editorial/portal.js', import.meta.url), 'utf8');
 
 test('editorial shell exposes an office-like document workspace', () => {
-  for (const selector of ['editor-toolbar', 'document-canvas', 'autosave-status', 'editor-panel-tabs', 'editor-sidebar']) {
+  for (const selector of ['editor-toolbar', 'document-canvas', 'autosave-status', 'editor-panel-tabs', 'editor-sidebar', 'permalink-preview', 'word-count', 'document-save-status']) {
     assert.match(shell, new RegExp(`id="${selector}"`));
   }
-  for (const command of ['undo', 'redo', 'bold', 'italic', 'bullet-list', 'link', 'quote', 'image', 'download']) {
+  for (const command of ['undo', 'redo', 'bold', 'italic', 'insertUnorderedList', 'insertOrderedList', 'justifyLeft', 'justifyCenter', 'justifyRight', 'link', 'unlink', 'quote', 'image', 'download']) {
     assert.match(shell, new RegExp(`data-command="${command}"`));
   }
   assert.match(shell, /id="text-style"/);
   assert.match(portalScript, /editor\.contentEditable\s*=\s*'true'/);
+  assert.match(portalScript, /permalink-preview/);
+  assert.match(portalScript, /word-count/);
 });
 
 test('editorial shell keeps every daily view in the full-bleed workspace', () => {
@@ -48,4 +50,6 @@ test('editorial shell has responsive document workspace styles', () => {
   assert.match(styles, /prefers-color-scheme: dark/);
   assert.match(styles, /\.rich-editor\s*\{[^}]*min-height:\s*420px[^}]*font-size:\s*17px/);
   assert.match(styles, /\.document-canvas\s*\{[^}]*background:\s*var\(--strapi-white\)/);
+  assert.match(styles, /\.document-statusbar\s*\{/);
+  assert.match(styles, /\.rich-text-card \.block-header\s*\{[^}]*display:\s*none/);
 });

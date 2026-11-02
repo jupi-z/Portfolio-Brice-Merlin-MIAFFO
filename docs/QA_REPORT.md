@@ -41,6 +41,8 @@ La superposition signalée dans le pied de l’éditeur a été reproduite puis 
 
 La surface de rédaction a ensuite été rapprochée d’un traitement de texte : zone document continue, corps de texte étendu, styles `Normal` / `Titre 1` / `Titre 2` / `Citation`, annuler/rétablir, mise en forme directe et conservation des blocs image/PDF/tableau. La saisie interactive et la persistance du HTML riche ont été rejouées dans le scénario éditorial local.
 
+La référence « classic editor » fournie a été appliquée uniquement à l’intérieur de la page document : action « Ajouter un média », barre de mise en forme compacte (paragraphes, listes, citation, alignements, liens), permalien lisible avec modification assistée, zone de texte continue pour le premier bloc, insertion des blocs avancés sous le texte, compteur de mots et état du brouillon. Le shell, la sidebar, le header et le design public restent inchangés.
+
 ## Dépendances et limites restantes
 
 - La livraison Internet Hostinger, SPF/DKIM/DMARC et la réception réelle ne peuvent être validées avant la création des comptes de production par Brice.

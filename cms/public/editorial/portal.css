@@ -20,6 +20,8 @@
 .save-status { color: var(--strapi-muted); font-size: 12px; white-space: nowrap; }
 .editor-workspace { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 20px; align-items: start; }
 .editor-main { min-width: 0; overflow: hidden; background: var(--strapi-white); border: 1px solid var(--strapi-border); border-radius: 6px; }
+.document-media-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; padding: 12px clamp(16px, 3vw, 40px) 0; background: var(--strapi-white); }
+.document-media-bar .hint { margin: 0; }
 .editor-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 4px; padding: 10px 12px; background: var(--strapi-white); border-bottom: 1px solid var(--strapi-border); position: sticky; top: 0; z-index: 2; }
 .toolbar-button { min-width: 32px; min-height: 30px; padding: 5px 8px; color: var(--strapi-ink); background: transparent; border: 1px solid transparent; border-radius: 4px; font-size: 12px; font-weight: 600; }
 .toolbar-button:hover, .toolbar-button:focus-visible { color: var(--strapi-primary); background: var(--strapi-primary-soft); border-color: var(--strapi-border); }
@@ -28,6 +30,9 @@
 .document-eyebrow, .document-excerpt { color: var(--strapi-muted); font-size: 12px; font-weight: 600; }
 .document-eyebrow input, .document-excerpt textarea { margin-top: 8px; }
 .document-title { margin: 18px 0 24px; padding: 0; color: var(--strapi-ink); background: transparent; border: 0; border-bottom: 1px solid transparent; border-radius: 0; font-size: clamp(28px, 4vw, 44px); font-weight: 700; line-height: 1.08; }
+.document-permalink { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: -10px 0 28px; color: var(--strapi-muted); font-size: 12px; }
+.document-permalink a { color: var(--strapi-primary); overflow-wrap: anywhere; }
+.permalink-edit { padding: 2px 6px; color: var(--strapi-primary); background: transparent; border: 1px solid var(--strapi-border); border-radius: 3px; font-size: 11px; }
 .document-title:focus { border-bottom-color: var(--strapi-primary); box-shadow: none; }
 .document-excerpt textarea { min-height: 82px; resize: vertical; }
 .blocks { min-height: 120px; margin-top: 28px; }
@@ -42,7 +47,10 @@
 .block-tool:hover, .block-tool:focus-visible { color: var(--strapi-primary); background: var(--strapi-primary-soft); }
 .rich-editor { min-height: 96px; padding: 12px; background: var(--strapi-white); border: 1px solid var(--strapi-border); border-radius: 4px; outline: none; line-height: 1.65; }
 .rich-editor:empty::before { content: attr(data-placeholder); color: var(--strapi-muted); }
+.rich-text-card .block-header { display: none; }
+.rich-text-card { padding-top: 0; }
 .insert-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 24px; padding-top: 16px; color: var(--strapi-muted); border-top: 1px dashed var(--strapi-border); font-size: 12px; }
+.document-statusbar { display: flex; justify-content: space-between; gap: 16px; margin-top: 14px; padding-top: 10px; color: var(--strapi-muted); border-top: 1px solid var(--strapi-border); font-size: 11px; }
 .editor-sidebar { position: sticky; top: 20px; padding: 16px; background: var(--strapi-white); border: 1px solid var(--strapi-border); border-radius: 6px; }
 .editor-panel-tabs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--strapi-border); }
 .panel-tab { padding: 8px 4px; color: var(--strapi-muted); background: transparent; border: 0; border-bottom: 2px solid transparent; font-size: 12px; font-weight: 700; }
