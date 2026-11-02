@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Espace éditorial · Brice Merlin MIAFFO</title>
+    <link rel="stylesheet" href="./portal.css" />
+  </head>
+  <body>
+    <div id="app" class="app-shell" aria-live="polite">
+      <section id="login-view" class="login-card" hidden>
+        <p class="eyebrow">BRICE MERLIN MIAFFO</p>
+        <h1>Votre espace éditorial</h1>
+        <p class="muted">Publiez vos articles, études et rapports sans réglage technique.</p>
+        <form id="login-form" class="stack">
+          <label>Email<input name="email" type="email" autocomplete="username" required /></label>
+          <label>Mot de passe<input name="password" type="password" autocomplete="current-password" required /></label>
+          <button class="button primary" type="submit">Se connecter</button>
+          <p id="login-error" class="error" role="alert"></p>
+        </form>
+      </section>
+
+      <div id="portal-view" hidden>
+        <header class="topbar">
+          <div><p class="eyebrow">BRICE MERLIN MIAFFO</p><strong>Espace éditorial</strong></div>
+          <div class="top-actions"><span id="user-name" class="muted"></span><button id="logout" class="button quiet">Se déconnecter</button></div>
+        </header>
+        <div class="layout">
+          <aside class="sidebar" aria-label="Navigation éditoriale">
+            <p class="sidebar-title">Publier simplement</p>
+            <button class="nav-item active" data-view="dashboard">Vue d’ensemble</button>
+            <button class="nav-item" data-view="new">Nouvelle publication</button>
+            <button class="nav-item" data-view="publications">Mes publications</button>
+            <a class="nav-item link" href="/admin" target="_blank" rel="noreferrer">Administration technique</a>
+            <div class="help"><strong>Besoin d’aide ?</strong><p>Créez un brouillon, ajoutez votre texte, puis publiez quand il est prêt.</p></div>
+          </aside>
+          <main class="content">
+            <section id="dashboard-view" class="view">
+              <div class="page-heading"><div><p class="eyebrow">VUE D’ENSEMBLE</p><h1>Bonjour, Brice</h1><p class="muted">Voici l’essentiel de votre activité éditoriale.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
+              <div class="stats"><article><span>Brouillons</span><strong id="draft-count">0</strong></article><article><span>Publiées</span><strong id="published-count">0</strong></article><article><span>À traduire</span><strong id="translation-count">0</strong></article></div>
+              <div class="panel"><div class="panel-heading"><h2>Dernières publications</h2><button class="button quiet" data-view="publications">Tout voir</button></div><div id="recent-list" class="publication-list"></div></div>
+            </section>
+
+            <section id="new-view" class="view" hidden>
+              <div class="page-heading"><div><p class="eyebrow">NOUVELLE PUBLICATION</p><h1>Créer un brouillon</h1><p class="muted">Commencez avec quatre informations simples. Les détails avancés pourront être ajoutés plus tard.</p></div></div>
+              <form id="publication-form" class="panel form-grid">
+                <label class="wide">Titre<input name="title" required placeholder="Ex. Les transitions numériques en Afrique" /></label>
+                <label>Format<select name="editorialType"><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label>
+                <label>Catégorie<input name="category" value="Analyse" required /></label>
+                <label class="wide">Résumé<textarea name="excerpt" rows="5" required placeholder="Résumez le sujet en quelques lignes."></textarea></label>
+                <div class="wide form-actions"><button class="button primary" type="submit">Enregistrer le brouillon</button><button class="button quiet" type="button" data-view="dashboard">Annuler</button></div>
+                <p id="form-message" class="wide" role="status"></p>
+              </form>
+            </section>
+
+            <section id="publications-view" class="view" hidden>
+              <div class="page-heading"><div><p class="eyebrow">PUBLICATIONS</p><h1>Mes publications</h1><p class="muted">Retrouvez vos brouillons et vos contenus publiés.</p></div><button class="button primary" data-view="new">+ Nouvelle publication</button></div>
+              <div class="panel"><div id="all-list" class="publication-list"></div></div>
+            </section>
+          </main>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./portal.js"></script>
+  </body>
+</html>

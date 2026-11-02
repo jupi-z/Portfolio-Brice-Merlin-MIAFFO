@@ -42,3 +42,11 @@ Un brouillon n’apparaît ni dans la liste publique, ni dans les recherches, ni
 Les volumes PostgreSQL et les uploads doivent être sauvegardés ensemble. PostgreSQL reste sur le réseau Docker privé et n’est pas publié sur Internet.
 
 Les scripts de sauvegarde/restauration utilisent le flux binaire PowerShell 7 et ciblent explicitement `cms/.env` et `cms/docker-compose.yml`. Ils ont été vérifiés localement avec un dump PostgreSQL non conservé dans Git.
+# Portail éditorial simplifié
+
+Pour l’administration quotidienne, utiliser **http://127.0.0.1:1337/editorial/**.
+
+Ce portail ne montre que les actions utiles : vue d’ensemble, nouvelle publication et liste des publications. Il utilise les identifiants administrateur Strapi et les permissions Strapi existantes, sans dupliquer les données ni créer un second système d’authentification. Le lien « Administration technique » ouvre l’interface Strapi complète uniquement lorsque cela est nécessaire.
+
+L’URL `/admin` reste réservée aux réglages techniques, aux permissions, aux médias avancés et à la maintenance.
+
