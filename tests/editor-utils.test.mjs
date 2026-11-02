@@ -33,11 +33,11 @@ test('normalizeEditorBlock converts API tables and media to editor state', () =>
 
 test('serializeEditorBlocks preserves structured block contracts', () => {
   assert.deepEqual(serializeEditorBlocks([
-    { __component: 'publication.rich-text', text: 'Texte' },
+    { __component: 'publication.rich-text', text: 'Texte', html: '<p><strong>Texte</strong></p>' },
     { __component: 'publication.image', mediaId: '7', alt: 'Illustration', caption: 'Légende' },
     { __component: 'publication.table', caption: 'Tableau', headers: 'A | B', rows: '1 | 2\n3 | 4' },
   ]), [
-    { __component: 'publication.rich-text', text: 'Texte' },
+    { __component: 'publication.rich-text', text: 'Texte', html: '<p><strong>Texte</strong></p>' },
     { __component: 'publication.image', image: 7, alt: 'Illustration', caption: 'Légende' },
     { __component: 'publication.table', caption: 'Tableau', headers: ['A', 'B'], rows: [['1', '2'], ['3', '4']] },
   ]);

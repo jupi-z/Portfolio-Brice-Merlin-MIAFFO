@@ -49,42 +49,28 @@
             </section>
 
             <section id="new-view" class="view" hidden>
-              <div class="page-heading"><div><p class="eyebrow" id="editor-eyebrow">NOUVELLE PUBLICATION</p><h1 id="editor-title">Créer une publication</h1><p class="muted">Remplissez les champs essentiels, puis complétez les détails si nécessaire.</p></div><button class="button quiet" data-view="publications">Retour à la liste</button></div>
-              <form id="publication-form" class="editor-form">
+              <div class="editor-heading"><div><p class="eyebrow" id="editor-eyebrow">NOUVELLE PUBLICATION</p><h1 id="editor-title">Créer une publication</h1><p class="muted">Rédigez votre publication comme dans un document, puis publiez-la quand elle est prête.</p></div><div class="editor-heading-actions"><span id="autosave-status" class="save-status" role="status">Nouveau brouillon</span><button class="button quiet" type="button" data-action="preview">Prévisualiser</button><button class="button primary" type="submit" form="publication-form">Enregistrer</button></div></div>
+              <form id="publication-form" class="editor-workspace">
                 <input type="hidden" name="documentId" />
-                <div class="panel form-grid">
-                  <label class="wide">Langue<select name="locale"><option value="fr">Français</option><option value="en">English</option></select></label>
-                  <label class="wide">Titre<input name="title" required /></label>
-                  <label class="wide">Surtitre <small class="hint">Texte court affiché au-dessus du titre</small><input name="eyebrow" /></label>
-                  <label>Format<select name="editorialType" required><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label>
-                  <label>Catégorie<input name="category" value="Analyse" required /></label>
-                  <label>Slug<input name="slug" required /><small class="hint">Utilisé dans l’adresse de la page.</small></label>
-                  <label>Auteur<input name="authorName" value="Brice Merlin MIAFFO" /></label>
-                  <label class="wide">Résumé<textarea name="excerpt" rows="4" required></textarea></label>
-                  <label>Tags <small class="hint">Séparés par des virgules</small><input name="tags" /></label>
-                  <label>Temps de lecture <small class="hint">En minutes</small><input name="readingTime" type="number" min="1" max="180" /></label>
-                  <label class="wide check"><input name="featured" type="checkbox" /> Mettre en avant cette publication</label>
-                  <label>Date des données <input name="dataDate" type="date" /></label>
-                  <label>Autorisation<select name="publicationAuthorization"><option value="not-required">Non requise</option><option value="pending">À confirmer</option><option value="confirmed">Confirmée</option></select></label>
+                <div class="editor-main">
+                  <div id="editor-toolbar" class="editor-toolbar" role="toolbar" aria-label="Outils de rédaction">
+                    <button class="toolbar-button" type="button" data-command="bold" aria-label="Gras"><strong>G</strong></button><button class="toolbar-button" type="button" data-command="italic" aria-label="Italique"><em>I</em></button><span class="toolbar-divider"></span><button class="toolbar-button" type="button" data-command="bullet-list" aria-label="Liste à puces">☷</button><button class="toolbar-button" type="button" data-command="link" aria-label="Ajouter un lien">↗</button><span class="toolbar-divider"></span><button class="toolbar-button" type="button" data-command="heading" data-add-block="heading">Titre</button><button class="toolbar-button" type="button" data-command="quote" data-add-block="quote">Citation</button><button class="toolbar-button" type="button" data-command="callout" data-add-block="callout">Encadré</button><button class="toolbar-button" type="button" data-command="table" data-add-block="table">Tableau</button><button class="toolbar-button" type="button" data-command="image" data-add-block="image">Image</button><button class="toolbar-button" type="button" data-command="download" data-add-block="download">PDF</button>
+                  </div>
+                  <div id="document-canvas" class="document-canvas">
+                    <label class="document-eyebrow">Surtitre <input name="eyebrow" placeholder="Facultatif" /></label>
+                    <input class="document-title" name="title" required placeholder="Titre de la publication" aria-label="Titre de la publication" />
+                    <label class="document-excerpt">Résumé <textarea name="excerpt" rows="3" required placeholder="Expliquez en quelques lignes ce que le lecteur va découvrir."></textarea></label>
+                    <div id="blocks" class="blocks" aria-label="Contenu de la publication"></div>
+                    <div class="insert-bar"><span>Insérer</span><button class="button quiet small" type="button" data-command="paragraph" data-add-block="rich-text">+ Texte</button><button class="button quiet small" type="button" data-command="heading" data-add-block="heading">+ Titre</button><button class="button quiet small" type="button" data-command="image" data-add-block="image">+ Image</button><button class="button quiet small" type="button" data-command="download" data-add-block="download">+ PDF</button></div>
+                  </div>
                 </div>
-
-                <div class="panel"><div class="panel-heading"><div><h2>Contenu</h2><p class="muted">Ajoutez les blocs dans l’ordre de lecture.</p></div><div class="block-actions"><button class="button quiet small" type="button" data-add-block="rich-text">Texte</button><button class="button quiet small" type="button" data-add-block="heading">Titre</button><button class="button quiet small" type="button" data-add-block="quote">Citation</button><button class="button quiet small" type="button" data-add-block="callout">Encadré</button><button class="button quiet small" type="button" data-add-block="table">Tableau</button><button class="button quiet small" type="button" data-add-block="image">Image</button><button class="button quiet small" type="button" data-add-block="download">PDF</button></div></div><div id="blocks" class="blocks"></div></div>
-
-                <div class="panel form-grid"><div class="wide"><h2>Image de couverture</h2><p class="muted">Choisissez un média déjà importé ou ouvrez la médiathèque pour en ajouter un.</p></div><label class="wide">Image<select name="coverId" id="cover-media"><option value="">Aucune image</option></select></label><label class="wide">Texte alternatif<input name="coverAlt" /></label></div>
-
-                <div class="panel form-grid">
-                  <label class="wide">Méthodologie<textarea name="methodology" rows="3"></textarea></label>
-                  <label class="wide">Périmètre<textarea name="scope" rows="3"></textarea></label>
-                  <label class="wide">Limites<textarea name="limitations" rows="3"></textarea></label>
-                  <label class="wide">Références <small class="hint">Une référence par ligne</small><textarea name="references" rows="4"></textarea></label>
-                </div>
-
-                <div class="panel form-grid">
-                  <label class="wide">Titre SEO<input name="metaTitle" maxlength="70" /></label>
-                  <label class="wide">Description SEO<textarea name="metaDescription" rows="3" maxlength="170"></textarea></label>
-                  <label class="check"><input name="noIndex" type="checkbox" /> Ne pas indexer cette page</label>
-                </div>
-                <div class="form-actions"><button class="button primary" type="submit">Enregistrer le brouillon</button><button class="button quiet" type="button" data-action="translate">Préparer la traduction anglaise</button><button class="button quiet" type="button" data-action="preview">Prévisualiser</button><p id="form-message" role="status"></p></div>
+                <aside id="editor-sidebar" class="editor-sidebar" aria-label="Réglages de la publication">
+                  <div id="editor-panel-tabs" class="editor-panel-tabs" role="tablist"><button class="panel-tab active" type="button" data-panel="publication" role="tab">Publication</button><button class="panel-tab" type="button" data-panel="translation" role="tab">Traduction</button><button class="panel-tab" type="button" data-panel="seo" role="tab">SEO</button></div>
+                  <section class="editor-panel-view" data-panel-view="publication"><label>Langue<select name="locale"><option value="fr">Français</option><option value="en">English</option></select></label><label>Format<select name="editorialType" required><option value="article">Article</option><option value="study">Étude / rapport</option><option value="note">Note / point de vue</option><option value="case-study">Étude de cas</option><option value="guide">Guide / ressource</option><option value="intervention">Intervention / interview</option></select></label><label>Catégorie<input name="category" value="Analyse" required /></label><label>Tags <small class="hint">Séparés par des virgules</small><input name="tags" /></label><label>Auteur<input name="authorName" value="Brice Merlin MIAFFO" /></label><label>Temps de lecture <small class="hint">Calculé automatiquement</small><input name="readingTime" type="number" min="1" max="180" readonly /></label><label class="check"><input name="featured" type="checkbox" /> Mettre en avant</label><label>Date des données<input name="dataDate" type="date" /></label><label>Autorisation<select name="publicationAuthorization"><option value="not-required">Non requise</option><option value="pending">À confirmer</option><option value="confirmed">Confirmée</option></select></label><label>Image de couverture<select name="coverId" id="cover-media"><option value="">Aucune image</option></select></label><label>Texte alternatif<input name="coverAlt" /></label><details class="advanced-settings"><summary>Options avancées</summary><label>Slug <small class="hint">Généré depuis le titre</small><input name="slug" /></label><label>Méthodologie<textarea name="methodology" rows="3"></textarea></label><label>Périmètre<textarea name="scope" rows="3"></textarea></label><label>Limites<textarea name="limitations" rows="3"></textarea></label><label>Références <small class="hint">Une référence par ligne</small><textarea name="references" rows="4"></textarea></label></details></section>
+                  <section class="editor-panel-view" data-panel-view="translation" hidden><p class="panel-lead">Créez la version anglaise quand le texte français est prêt.</p><p id="translation-status" class="translation-status">Aucune traduction anglaise publiée.</p><button class="button quiet" type="button" data-action="translate">Préparer la traduction anglaise</button></section>
+                  <section class="editor-panel-view" data-panel-view="seo" hidden><p class="panel-lead">Le SEO est préparé automatiquement à partir de votre contenu.</p><div id="seo-score" class="seo-score">SEO en attente</div><label>Titre SEO <small class="hint">Suggestion automatique, modifiable</small><input name="metaTitle" maxlength="60" /></label><label>Description SEO <small class="hint">Suggestion automatique, modifiable</small><textarea name="metaDescription" rows="4" maxlength="160"></textarea></label><label class="check"><input name="noIndex" type="checkbox" /> Ne pas indexer cette page</label><div id="seo-preview" class="seo-preview"><strong id="seo-preview-title">Titre de la publication</strong><span id="seo-preview-url">brice-miaffo.com/perspectives/...</span><p id="seo-preview-description">La description apparaîtra ici.</p></div><ul id="seo-checklist" class="seo-checklist"></ul></section>
+                </aside>
+                <div class="editor-footer"><p id="form-message" role="status"></p><span id="editor-footer-status" class="muted">Les réglages techniques sont gérés automatiquement.</span><button class="button quiet" type="button" data-action="preview">Prévisualiser</button><button class="button primary" type="submit">Enregistrer le brouillon</button></div>
               </form>
             </section>
 

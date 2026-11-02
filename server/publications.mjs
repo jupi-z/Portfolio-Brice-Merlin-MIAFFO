@@ -6,6 +6,21 @@ export const escapeHtml = (value = '') => String(value).replace(/[&<>"']/g, (cha
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 }[char]));
 
+const RICH_TEXT_TAGS = new Set(['p', 'div', 'br', 'strong', 'b', 'em', 'i', 'u', 'ul', 'ol', 'li', 'blockquote', 'a']);
+const safeHref = (value) => /^(https?:\/\/|mailto:|\/|#)/i.test(value) ? value : '';
+export function sanitizeRichText(value = '') {
+  return String(value).slice(0, 24000).replace(/<!--[\s\S]*?-->/g, '').replace(/<\s*(\/?)\s*([a-z0-9]+)([^>]*)>/gi, (match, closing, tagName, rawAttributes) => {
+    const tag = tagName.toLowerCase();
+    if (!RICH_TEXT_TAGS.has(tag)) return '';
+    if (closing) return `</${tag}>`;
+    if (tag === 'br') return '<br/>';
+    if (tag !== 'a') return `<${tag}>`;
+    const hrefMatch = rawAttributes.match(/\bhref\s*=\s*["']([^"']*)["']/i);
+    const href = safeHref(hrefMatch?.[1] || '');
+    return href ? `<a href="${escapeHtml(href)}" rel="noopener noreferrer">` : '<a>';
+  });
+}
+
 const asText = (value, max = 10000) => typeof value === 'string' ? value.trim().slice(0, max) : '';
 const attrs = (entry) => entry?.attributes && typeof entry.attributes === 'object' ? { ...entry.attributes, documentId: entry.documentId, locale: entry.locale, publishedAt: entry.publishedAt } : entry || {};
 const mediaPublicUrl = (media) => {
@@ -76,7 +91,7 @@ function blockHtml(block) {
     return `<${level}>${escapeHtml(asText(block.text, 500))}</${level}>`;
   }
   if (type === 'publication.rich-text') {
-    return `<p>${escapeHtml(asText(block.text, 12000)).replace(/\r?\n/g, '<br/>')}</p>`;
+    return block.html ? sanitizeRichText(block.html) : `<p>${escapeHtml(asText(block.text, 12000)).replace(/\r?\n/g, '<br/>')}</p>`;
   }
   if (type === 'publication.quote') {
     const source = block.source ? `<cite>${escapeHtml(asText(block.source, 240))}</cite>` : '';

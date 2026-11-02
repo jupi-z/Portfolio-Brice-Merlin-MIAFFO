@@ -37,6 +37,16 @@ test('renders structured blocks as escaped safe HTML', () => {
   assert.match(html, /Brice Miaffo/);
 });
 
+test('sanitizes rich editor HTML while preserving safe formatting', () => {
+  const html = renderPublicationBody([
+    { __component: 'publication.rich-text', text: 'Fallback', html: '<p>Texte <strong>important</strong> <a href="https://example.test">source</a><script>alert(1)</script><img src=x onerror=alert(2)></p>' },
+  ]);
+
+  assert.match(html, /<strong>important<\/strong>/);
+  assert.match(html, /<a href="https:\/\/example\.test" rel="noopener noreferrer">source<\/a>/);
+  assert.doesNotMatch(html, /<script|onerror|<img/);
+});
+
 test('rewrites published media to the protected CMS public-media route', () => {
   const publication = normalizePublication({
     documentId: 'doc-media',

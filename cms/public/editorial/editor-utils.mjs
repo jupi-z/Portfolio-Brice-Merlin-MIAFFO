@@ -73,6 +73,6 @@ export function serializeEditorBlocks(blocks = []) {
     if (block.__component === 'publication.heading') return { __component: 'publication.heading', level: block.level === 'h3' ? 'h3' : 'h2', text: asText(block.text) };
     if (block.__component === 'publication.quote') return { __component: 'publication.quote', text: asText(block.text), attribution: asText(block.attribution), source: asText(block.source) };
     if (block.__component === 'publication.callout') return { __component: 'publication.callout', title: asText(block.title), text: asText(block.text) };
-    return { __component: 'publication.rich-text', text: asText(block.text) };
+    return { __component: 'publication.rich-text', text: asText(block.text), ...(asText(block.html) ? { html: block.html } : {}) };
   });
 }
