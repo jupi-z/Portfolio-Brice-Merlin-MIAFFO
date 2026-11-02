@@ -123,3 +123,31 @@
 .publication > div:first-child { flex: 1 1 auto; }
 .publication h3, .publication small, .save-status, #editor-footer-status { overflow-wrap: anywhere; }
 .editor-main, .editor-sidebar, .editor-footer, .document-canvas { min-width: 0; }
+
+/* Word-like writing surface: one continuous document, with structural blocks kept quiet. */
+.editor-main { background: var(--strapi-bg); }
+.editor-toolbar { padding: 12px clamp(16px, 3vw, 40px); background: var(--strapi-white); border-bottom: 1px solid var(--strapi-border); }
+.toolbar-select { min-height: 30px; padding: 5px 26px 5px 8px; color: var(--strapi-ink); background: var(--strapi-white); border: 1px solid var(--strapi-border); border-radius: 4px; font-size: 12px; }
+.document-canvas { width: min(920px, calc(100% - clamp(32px, 8vw, 120px))); min-height: calc(100dvh - 330px); margin: 32px auto 0; padding: clamp(40px, 6vw, 80px) clamp(32px, 7vw, 96px) 80px; background: var(--strapi-white); border-inline: 1px solid var(--strapi-border); }
+.document-eyebrow input { background: transparent; border: 0; border-bottom: 1px solid var(--strapi-border); border-radius: 0; padding-inline: 0; }
+.document-title { margin-top: 26px; font-size: clamp(34px, 4.5vw, 54px); letter-spacing: -0.035em; }
+.document-excerpt textarea { background: transparent; border: 0; border-bottom: 1px solid var(--strapi-border); border-radius: 0; padding: 12px 0; line-height: 1.6; }
+.blocks { min-height: 420px; margin-top: 44px; }
+.block-card { padding: 0; background: transparent; border: 0; }
+.block-header { min-height: 30px; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--strapi-border); }
+.block-header strong { font-size: 10px; }
+.block-tools { opacity: .72; }
+.rich-editor { min-height: 420px; padding: 14px 0 120px; background: transparent; border: 0; font-size: 17px; line-height: 1.85; caret-color: var(--strapi-primary); }
+.rich-editor:focus { border: 0; box-shadow: none; }
+.rich-editor p { margin: 0 0 1em; }
+.rich-editor h2, .rich-editor h3 { margin: 1.4em 0 .6em; color: var(--strapi-ink); line-height: 1.2; }
+.rich-editor h2 { font-size: 1.65em; }
+.rich-editor h3 { font-size: 1.3em; }
+.rich-editor blockquote { margin: 1.4em 0; padding-left: 18px; border-left: 3px solid var(--strapi-primary); color: var(--strapi-muted); }
+.insert-bar { margin-top: 0; padding-top: 18px; border-top: 1px dashed var(--strapi-border); }
+
+@media (max-width: 720px) {
+  .document-canvas { width: 100%; margin-top: 16px; padding: 28px 20px 56px; border-inline: 0; }
+  .toolbar-select { max-width: 120px; }
+  .rich-editor { min-height: 320px; font-size: 16px; }
+}
