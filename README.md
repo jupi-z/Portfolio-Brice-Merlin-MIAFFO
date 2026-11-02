@@ -5,7 +5,7 @@ Production-oriented React/TypeScript project based **strictly on the approved V2
 ## Start
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
@@ -60,6 +60,10 @@ The 12 programmes were selected because the provided 2026–2027 catalogue expli
 
 ### Prerendering
 
-`npm run build` now generates 12 static HTML pages (`dist/fr/...` and `dist/en/...`) with React server rendering and language-specific SEO tags. The Node server serves these actual HTML files. The included sitemap lists both languages; the static-host configurations redirect only `/` to `/fr/`.
+`npm run build` generates 12 static HTML pages (`dist/fr/...` and `dist/en/...`) with React server rendering and language-specific SEO tags. The Node server additionally renders CMS-backed publication lists, publication details, sitemap and RSS at request time, so Brice can publish without a frontend rebuild.
+
+### Editorial CMS
+
+The real editorial workspace is Strapi 5.60.0 with PostgreSQL in `cms/`. See [docs/CMS_EDITOR_GUIDE.md](docs/CMS_EDITOR_GUIDE.md), [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) and [docs/SECURITY.md](docs/SECURITY.md). The public site remains safe and neutral when Strapi is unavailable or contains no published item.
 
 **Deploy checklist:** configure DNS and HTTPS; set real SMTP settings; test a real received message; have Brice approve all professional claims, the authorised photo, translations, and legal/privacy notices before public release.

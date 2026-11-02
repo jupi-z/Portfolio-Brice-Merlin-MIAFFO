@@ -23,7 +23,8 @@ app.use((req,res,next)=>{
   'Referrer-Policy':'strict-origin-when-cross-origin',
   'X-Frame-Options':'DENY',
   'Permissions-Policy':'camera=(), microphone=(), geolocation=()',
-  'Cross-Origin-Resource-Policy':'same-origin'
+  'Cross-Origin-Resource-Policy':'same-origin',
+  'Content-Security-Policy':"default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; form-action 'self' mailto:;"
  });
  next();
 });
