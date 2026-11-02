@@ -20,22 +20,31 @@ La boîte locale de capture est disponible sur `http://127.0.0.1:8025`. Le test 
 
 ## Utiliser le portail éditorial
 
+Le portail personnalisé est conçu comme un document bureautique : une page centrale pour rédiger, une barre d’outils pour mettre en forme et un panneau latéral pour les réglages. Les termes techniques de Strapi ne sont pas nécessaires pour le travail quotidien.
+
 ### Créer et modifier
 
 1. Cliquer sur **Nouvelle publication**.
-2. Choisir la langue, le format et la catégorie.
-3. Saisir le titre, le résumé et les tags. Le slug est proposé automatiquement et reste modifiable.
-4. Ajouter les blocs Texte, Titre, Citation, Encadré, Image et PDF.
-5. Compléter les champs d’étude : méthodologie, périmètre, limites et références.
-6. Renseigner les métadonnées SEO et l’image de couverture depuis la médiathèque.
-7. Cliquer sur **Enregistrer le brouillon**. Le contenu peut être rouvert et modifié sans publication.
+2. Choisir la langue, le format et la catégorie dans l’onglet **Publication**.
+3. Saisir le titre, le résumé et les tags. L’adresse web, le temps de lecture et les suggestions SEO sont calculés automatiquement.
+4. Rédiger dans la zone centrale comme dans un document : gras, italique, listes, liens, titres, citations et encadrés sont disponibles dans la barre d’outils.
+5. Utiliser les boutons **+ Texte**, **+ Titre**, **+ Image** et **+ PDF** pour ajouter des éléments. Chaque élément peut être déplacé, dupliqué ou supprimé.
+6. Ajouter une image ou un PDF depuis la médiathèque. Pour une image, le texte alternatif est obligatoire pour obtenir un contrôle SEO positif.
+7. Compléter les champs d’étude dans **Options avancées** uniquement lorsque le format le nécessite : méthodologie, périmètre, limites et références.
+8. Cliquer sur **Enregistrer** pour créer le premier brouillon. Ensuite, les modifications sont sauvegardées automatiquement après une courte pause ; le statut en haut de l’éditeur indique si le brouillon est enregistré ou s’il reste une action à faire.
+
+### SEO automatique
+
+L’onglet **SEO** présente une checklist lisible et un aperçu du résultat public. Le titre SEO et la description SEO sont proposés depuis le titre, le résumé et le contenu ; ils restent toujours modifiables. Le slug est proposé depuis le titre, et le temps de lecture est calculé depuis les blocs.
+
+Les réglages avancés ne sont nécessaires que dans les cas particuliers : slug éditorial imposé, titre ou description SEO personnalisés, ou option **Ne pas indexer cette page**. Les balises canonical, Open Graph, Twitter, `hreflang`, sitemap, flux RSS et données structurées sont générées par le site public à partir de la publication publiée.
 
 ### Traduire et prévisualiser
 
-1. Depuis une publication française enregistrée, cliquer sur **Préparer la traduction anglaise**.
-2. Traduire les champs dans l’éditeur English.
+1. Depuis une publication française enregistrée, ouvrir l’onglet **Traduction** puis cliquer sur **Préparer la traduction anglaise**.
+2. Traduire les champs dans l’éditeur English ; les deux versions restent indépendantes afin d’éviter d’écraser une traduction relue.
 3. Cliquer sur **Prévisualiser** : l’aperçu est privé et nécessite la session du portail.
-4. Publier chaque langue séparément après relecture.
+4. Publier chaque langue séparément après relecture. Une modification ou une dépublication est visible sur le site sans reconstruire le frontend.
 
 ### Publier, dépublier et supprimer
 
@@ -43,7 +52,7 @@ La boîte locale de capture est disponible sur `http://127.0.0.1:8025`. Le test 
 - **Dépublier** retire la langue des pages publiques, du sitemap et du flux RSS.
 - **Supprimer** supprime la publication et toutes ses traductions ; cette action demande confirmation.
 
-Un brouillon n’apparaît jamais dans les pages publiques. Les recherches, filtres et pages de liste passent par l’API du portail.
+Un brouillon n’apparaît jamais dans les pages publiques. Les recherches, filtres et pages de liste passent par l’API du portail. Le panneau **Mes publications** permet de retrouver les contenus par statut, langue, format et catégorie.
 
 ### Médias
 

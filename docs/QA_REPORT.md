@@ -8,12 +8,12 @@
 | PostgreSQL | PASS — PostgreSQL 16 Alpine, conteneur healthy, volume persistant |
 | Strapi | PASS — 5.60.0, build admin réussi, `/_health` HTTP 204, `/admin` HTTP 200 |
 | Mailpit | PASS — `axllent/mailpit:v1.32.0`, UI 8025, SMTP 1025, volume persistant |
-| `npm test` | PASS — 16/16 tests : contenu bilingue, rendu, sécurité média et tests serveur |
+| `npm test` | PASS — 27/27 tests : contenu bilingue, rendu, portail éditorial, SEO, autosauvegarde, rendu riche et sécurité média |
 | `npm run build` | PASS — TypeScript, Vite et prerender FR/EN |
 | `npm run build --prefix cms` | PASS — compilation TypeScript et panneau Strapi |
-| Portail éditorial personnalisé | PASS local — session HttpOnly, CRUD, blocs, recherche/filtres, traduction EN, aperçu privé, publication/dépublication |
+| Portail éditorial personnalisé | PASS local — session HttpOnly, espace document, barre d’outils, blocs, déplacement/duplication/suppression, recherche/filtres, traduction EN, aperçu privé, publication/dépublication |
 | Médiathèque personnalisée | PASS — upload WebP/PDF, rejet d’un fichier non autorisé, bloc média incomplet, accès privé et exposition publique uniquement après publication vérifiés |
-| `npm run test:editorial:local` | PASS — scénario exécuté avec le rôle limité Strapi `Editor`, création/réouverture/traduction/aperçu/publication/dépublication/suppression, médias WebP/PDF et confidentialité des uploads |
+| `npm run test:editorial:local` | PASS — scénario FR/EN exécuté avec le rôle limité Strapi `Editor`, création/réouverture, HTML riche, traduction, aperçu, publication, dépublication des deux langues, médias WebP/PDF, confidentialité et suppression |
 | Pages publiques locales FR/EN | PASS — fiches, liste, canonical/hreflang, sitemap, RSS, publication sans rebuild et 404 après dépublication |
 | Configuration Compose | PASS — PostgreSQL, Strapi, Mailpit sur réseau privé |
 | Internationalisation Strapi | PASS — locales English et Français créées dans l'interface |
@@ -25,18 +25,20 @@
 | Validation, origine, honeypot, rate-limit | PASS — réponses dédiées et aucun faux envoi |
 | Timeout / erreur SMTP | PASS — chemins d'erreur dédiés et tests de configuration |
 | Publications publiques | PASS antérieur — publié uniquement, brouillons exclus |
-| SEO éditorial | PASS partiel — canonical, Open Graph, Twitter et hreflang SSR renforcés |
+| SEO éditorial | PASS — suggestions automatiques bornées, conservation des overrides manuels, checklist image-alt, canonical, Open Graph, Twitter, JSON-LD, hreflang, sitemap et RSS |
 | Pagination et sitemap | PASS — pagination serveur du portail et collecte multi-pages publiques |
 | Sauvegarde/restauration PostgreSQL | PASS — `cms/scripts/verify-backup.ps1`, dump puis restauration dans une base temporaire isolée |
+| Nettoyage QA | PASS — publications et médias temporaires supprimés ; aucune ligne `qa-local*` ni fichier `qa_local_*` restant |
+| Vérification visuelle | PASS ciblé — éditeur document, onglets Publication/Traduction/SEO, thème Strapi et correction de la visibilité des panneaux contrôlés dans le navigateur local |
 
 ## Administration temporaire
 
 Un compte administrateur local de QA a été créé uniquement pour le parcours graphique. Aucun compte de production, identifiant Hostinger ou secret n'a été créé ni versionné. Les messages Mailpit de test sont supprimés par le test reproductible.
 
-Le scénario API éditorial complet est passé localement. Le portail a aussi été ouvert dans le navigateur local et l’éditeur complet a été vérifié visuellement. Le compte QA local utilise maintenant le rôle Strapi limité `Editor` ; le rôle dédié `Editorial Editor` reste recommandé pour la production.
+Le scénario API éditorial complet est passé localement. Le portail a aussi été ouvert dans le navigateur local et l’éditeur complet a été vérifié visuellement. Le compte QA local utilise maintenant le rôle Strapi limité `Editor` ; le rôle dédié `Editorial Editor` reste recommandé pour la production. Les données de test générées par le scénario ont été supprimées après vérification.
 
 ## Dépendances et limites restantes
 
 - La livraison Internet Hostinger, SPF/DKIM/DMARC et la réception réelle ne peuvent être validées avant la création des comptes de production par Brice.
 - `npm audit --omit=dev --audit-level=high` frontend : 0 vulnérabilité. `npm audit --prefix cms --omit=dev --audit-level=high` Strapi 5.60.0 : 43 vulnérabilités transitives (dont 25 high), notamment via Nodemailer, webpack-dev-middleware et zod. Aucun `npm audit fix --force` n'a été appliqué, car l'outil propose des changements majeurs incompatibles; elles doivent être requalifiées lors d'une montée de version Strapi.
-- Les tests graphiques multi-navigateurs, les 12 formations sur toutes les tailles et la restauration indépendante des médias doivent encore être validés dans l'environnement QA local complet; aucune validation non exécutée n'est présentée comme PASS.
+- Les tests graphiques multi-navigateurs, la matrice complète des 12 formations sur toutes les tailles et la restauration indépendante des médias restent à compléter dans une passe QA dédiée ; aucune validation non exécutée n'est présentée comme PASS.
