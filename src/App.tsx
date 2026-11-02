@@ -46,8 +46,8 @@ function updateMeta(lang:Lang, page:Page) {
  let script=document.head.querySelector<HTMLScriptElement>('#brice-jsonld');if(!script){script=document.createElement('script');script.id='brice-jsonld';script.type='application/ld+json';document.head.appendChild(script);}script.textContent=JSON.stringify(graph);
 }
 
-export default function App(){
- const [locationState,setLocationState]=useState(()=>parsePath(typeof window==='undefined'?'/fr/':window.location.pathname));
+export default function App({initialRoute}:{initialRoute?:{lang:Lang,page:Page}}={}){
+ const [locationState,setLocationState]=useState(()=>initialRoute ?? parsePath(typeof window==='undefined'?'/fr/':window.location.pathname));
  const {lang,page}=locationState;
  const [theme,setTheme]=useState<'light'|'dark'>(()=>{
    try{return localStorage.getItem('bm:theme')==='dark'?'dark':'light';}catch{return 'light';}
@@ -65,7 +65,26 @@ export default function App(){
  const header=useMemo(()=>renderTemplate('header',lang),[lang]);
  const mobile=useMemo(()=>renderTemplate('nav',lang),[lang]);
  const footer=useMemo(()=>renderTemplate('footer',lang),[lang]);
- const body=useMemo(()=>renderTemplate(page,lang),[page,lang]);
+ const body=useMemo(()=>{
+   let markup=renderTemplate(page,lang);
+   const programmes=content[lang].training;
+   const domains=content[lang].expertise;
+   // Also supply meaningful markup during static prerendering, not only after hydration.
+   if(page==='home'){
+    const featured=[programmes[0],programmes[1],programmes[10],programmes[11]].map(t=>trainingRow(t,lang,true)).join('');
+    markup=markup.replace(/(<[^>]+id="featuredTraining"[^>]*>)(<\/[^>]+>)/,`$1${featured}$2`);
+    const expertise=domains.map(e=>expertiseRow(e,e.num==='01')).join('');
+    markup=markup.replace(/(<[^>]+id="expertiseList"[^>]*>)(<\/[^>]+>)/,`$1${expertise}$2`);
+   }
+   if(page==='formations'){
+    markup=markup.replace(/(<[^>]+id="trainingResults"[^>]*>)(<\/[^>]+>)/,`$1${programmes.map(t=>trainingRow(t,lang)).join('')}$2`);
+   }
+   if(page==='expertises'){
+    const detail=domains.map(e=>`<article class="expertise-row" style="cursor:default"><span class="ex-num">${e.num}</span><div><h3>${escapeHtml(e.title)}</h3><p>${escapeHtml(e.desc)}</p><p>${escapeHtml(e.detail)}</p></div><span class="ex-arrow">↗</span></article>`).join('');
+    markup=markup.replace(/(<[^>]+id="expertiseDetailList"[^>]*>)(<\/[^>]+>)/,`$1${detail}$2`);
+   }
+   return markup;
+  },[page,lang]);
  const list=content[lang].training;
  const expertises=content[lang].expertise;
  const filtered=useMemo(()=>list.filter(t=>(category==='all'||t.category===category)&&(!search||[t.title,t.cat,t.summary,t.audience].join(' ').toLocaleLowerCase(lang).includes(search.toLocaleLowerCase(lang)))),[category,lang,list,search]);
