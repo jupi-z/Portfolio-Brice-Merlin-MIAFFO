@@ -11,7 +11,8 @@
     "start": "node server/index.mjs",
     "test:content": "node scripts/validate-content.mjs",
     "test:rendering": "node scripts/test-rendering.mjs",
-    "test": "npm run test:content && npm run test:rendering"
+    "test:server": "node --test tests/*.test.mjs",
+    "test": "npm run test:content && npm run test:rendering && npm run test:server"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

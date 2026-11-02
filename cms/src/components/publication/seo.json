@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_seos","info":{"displayName":"SEO metadata"},"attributes":{"metaTitle":{"type":"string","pluginOptions":{"i18n":{"localized":true}}},"metaDescription":{"type":"text","pluginOptions":{"i18n":{"localized":true}}},"shareImage":{"type":"media","allowedTypes":["images"],"multiple":false},"noIndex":{"type":"boolean","default":false}}}

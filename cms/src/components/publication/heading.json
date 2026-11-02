@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_headings","info":{"displayName":"Heading"},"attributes":{"level":{"type":"enumeration","enum":["h2","h3"],"default":"h2","required":true},"text":{"type":"string","required":true,"pluginOptions":{"i18n":{"localized":true}}}}}

@@ -1,0 +1,1 @@
+{"collectionName":"components_publication_callouts","info":{"displayName":"Callout"},"attributes":{"title":{"type":"string","required":true,"pluginOptions":{"i18n":{"localized":true}}},"text":{"type":"text","required":true,"pluginOptions":{"i18n":{"localized":true}}}}}
