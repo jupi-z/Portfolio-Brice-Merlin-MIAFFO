@@ -41,10 +41,20 @@ module.exports = () => ({
         });
         ctx.body = { data: safePublication(document) };
       },
+      async publish(ctx) {
+        const document = await strapi.documents(UID).publish({ documentId: ctx.params.documentId, locale: 'fr' });
+        ctx.body = { data: safePublication(document) };
+      },
+      async unpublish(ctx) {
+        const document = await strapi.documents(UID).unpublish({ documentId: ctx.params.documentId, locale: 'fr' });
+        ctx.body = { data: safePublication(document) };
+      },
     }),
   },
   routes: [
     { method: 'GET', path: '/publications', handler: 'editorial.list' },
     { method: 'POST', path: '/publications', handler: 'editorial.create' },
+    { method: 'POST', path: '/publications/:documentId/publish', handler: 'editorial.publish' },
+    { method: 'POST', path: '/publications/:documentId/unpublish', handler: 'editorial.unpublish' },
   ],
 });
