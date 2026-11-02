@@ -29,13 +29,15 @@
 | Pagination et sitemap | PASS — pagination serveur du portail et collecte multi-pages publiques |
 | Sauvegarde/restauration PostgreSQL | PASS — `cms/scripts/verify-backup.ps1`, dump puis restauration dans une base temporaire isolée |
 | Nettoyage QA | PASS — publications et médias temporaires supprimés ; aucune ligne `qa-local*` ni fichier `qa_local_*` restant |
-| Vérification visuelle | PASS ciblé — connexion, tableau de bord, publications, médiathèque, éditeur document, onglets Publication/Traduction/SEO ; interface plein écran sans cartes et correction de la visibilité des vues contrôlées dans le navigateur local |
+| Vérification visuelle | PASS ciblé — connexion, tableau de bord, publications, médiathèque, éditeur document, onglets Publication/Traduction/SEO et bas d’éditeur avec options avancées ; interface plein écran sans cartes, pied d’actions maintenu dans la colonne document et garde-fous responsive contrôlés dans le navigateur local |
 
 ## Administration temporaire
 
 Un compte administrateur local de QA a été créé uniquement pour le parcours graphique. Aucun compte de production, identifiant Hostinger ou secret n'a été créé ni versionné. Les messages Mailpit de test sont supprimés par le test reproductible.
 
 Le scénario API éditorial complet est passé localement. Le portail a aussi été ouvert dans le navigateur local et l’éditeur complet a été vérifié visuellement. Le compte QA local utilise maintenant le rôle Strapi limité `Editor` ; le rôle dédié `Editorial Editor` reste recommandé pour la production. Les données de test générées par le scénario ont été supprimées après vérification.
+
+La superposition signalée dans le pied de l’éditeur a été reproduite puis corrigée : le pied d’actions était auparavant un item de la grille au même niveau que la barre latérale sticky. Il est désormais contenu dans la colonne document, tandis que les enfants flex/grid critiques peuvent se réduire et que les actions longues se réorganisent sur mobile. Une assertion de non-régression couvre cette structure dans `tests/editorial-shell.test.mjs`.
 
 ## Dépendances et limites restantes
 

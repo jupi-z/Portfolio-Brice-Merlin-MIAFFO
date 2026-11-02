@@ -20,6 +20,9 @@ test('editorial shell keeps every daily view in the full-bleed workspace', () =>
   }
   assert.match(styles, /\.login-card\[hidden\], #portal-view\[hidden\], \.view\[hidden\]/);
   assert.match(styles, /\.editor-sidebar\s*\{[^}]*border-left:\s*1px/);
+  assert.match(shell, /class="editor-main"[\s\S]*class="editor-footer"[\s\S]*<\/div>\s*<\/div>\s*<aside id="editor-sidebar"/);
+  assert.match(styles, /\.editor-workspace > \*, \.topbar > \*, \.page-heading > \*/);
+  assert.match(styles, /\.row-actions\s*\{[^}]*flex-wrap:\s*wrap/);
 });
 
 test('editorial shell has responsive document workspace styles', () => {
