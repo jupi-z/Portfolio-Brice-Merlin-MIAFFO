@@ -15,7 +15,7 @@ const ADMIN_SESSION_TTL_SECONDS = 15 * 60;
 const ADMIN_REFRESH_TTL_SECONDS = 12 * 60 * 60;
 const PUBLICATION_TYPES = new Set(['article', 'study', 'note', 'case-study', 'guide', 'intervention']);
 const LOCALES = new Set(['fr', 'en']);
-const editorialRoles = () => new Set((process.env.EDITORIAL_ALLOWED_ROLES || 'Super Admin,Editorial Editor').split(',').map((role) => role.trim()).filter(Boolean));
+const editorialRoles = () => new Set((process.env.EDITORIAL_ALLOWED_ROLES || 'Super Admin,Editor,Editorial Editor').split(',').map((role) => role.trim()).filter(Boolean));
 
 const normalizeText = (value) => (typeof value === 'string' ? value.trim() : '');
 const normalizeTags = (value) => Array.isArray(value) ? value.map(normalizeText).filter(Boolean).slice(0, 30) : [];
@@ -83,19 +83,20 @@ const publicationData = (input, existing = {}) => ({
 });
 
 const validatePublication = (data, locale, ctx) => {
-  if (!data.title || !data.slug || !data.excerpt || !data.category) return ctx.badRequest('Le titre, le slug, le résumé et la catégorie sont obligatoires.');
-  if (!PUBLICATION_TYPES.has(data.editorialType)) return ctx.badRequest('Le format de publication est invalide.');
-  if (!Array.isArray(data.content) || data.content.length === 0) return ctx.badRequest('Ajoutez au moins un bloc de contenu.');
+  const fail = (message) => ctx.throw(400, message);
+  if (!data.title || !data.slug || !data.excerpt || !data.category) return fail('Le titre, le slug, le résumé et la catégorie sont obligatoires.');
+  if (!PUBLICATION_TYPES.has(data.editorialType)) return fail('Le format de publication est invalide.');
+  if (!Array.isArray(data.content) || data.content.length === 0) return fail('Ajoutez au moins un bloc de contenu.');
   for (const block of data.content) {
     if (block?.__component === 'publication.image' && (!block.image || (!Number.isInteger(Number(block.image)) && !block.image?.id))) {
-      return ctx.badRequest('Sélectionnez une image pour chaque bloc image.');
+      return fail('Sélectionnez une image pour chaque bloc image.');
     }
     if (block?.__component === 'publication.download' && (!block.file || (!Number.isInteger(Number(block.file)) && !block.file?.id))) {
-      return ctx.badRequest('Sélectionnez un PDF pour chaque bloc téléchargement.');
+      return fail('Sélectionnez un PDF pour chaque bloc téléchargement.');
     }
   }
-  if (data.readingTime !== null && (!Number.isInteger(data.readingTime) || data.readingTime < 1 || data.readingTime > 180)) return ctx.badRequest('Le temps de lecture doit être compris entre 1 et 180 minutes.');
-  if (!LOCALES.has(locale)) return ctx.badRequest('La langue demandée est invalide.');
+  if (data.readingTime !== null && (!Number.isInteger(data.readingTime) || data.readingTime < 1 || data.readingTime > 180)) return fail('Le temps de lecture doit être compris entre 1 et 180 minutes.');
+  if (!LOCALES.has(locale)) return fail('La langue demandée est invalide.');
 };
 
 const sessionManager = (strapi) => strapi.sessionManager('admin');

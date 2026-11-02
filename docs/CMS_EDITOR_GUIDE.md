@@ -51,7 +51,7 @@ La médiathèque accepte les fichiers JPG, PNG, WebP, AVIF et PDF de 12 Mo maxim
 
 ## Scénario QA reproductible
 
-Le scénario suivant exige uniquement un compte local temporaire transmis par l’environnement, jamais par Git :
+Le scénario suivant exige uniquement un compte local temporaire transmis par l’environnement, jamais par Git. Le rôle Strapi `Editor` est suffisant pour le portail personnalisé :
 
 ```powershell
 $editorialQaEmail = 'compte-local@example.test'
@@ -69,6 +69,12 @@ Il vérifie la connexion par cookie, la création, la réouverture, les blocs, l
 ```powershell
 ./cms/scripts/backup.ps1
 ./cms/scripts/restore.ps1 -InputFile ./backups/brice-portfolio-YYYYMMDD-HHmmss.dump
+```
+
+Pour vérifier automatiquement un dump sans toucher à la base active :
+
+```powershell
+pwsh -NoProfile -File ./cms/scripts/verify-backup.ps1
 ```
 
 PostgreSQL et les uploads doivent être sauvegardés ensemble. La restauration doit être testée sur une instance locale séparée avant toute mise en production.
