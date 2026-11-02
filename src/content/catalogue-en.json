@@ -1,0 +1,244 @@
+{
+  "training": [
+    {
+      "id": 1,
+      "n": "01",
+      "category": "finance",
+      "cat": "Corporate finance",
+      "title": "Finance for non-financial managers",
+      "duration": "2 days · 12 h",
+      "audience": "Managers, supervisors, engineers and senior executives",
+      "summary": "Understand financial statements and economic drivers that inform management decisions.",
+      "themes": [
+        "Reading financial statements",
+        "Budgets, ROI, NPV and IRR",
+        "CAPEX, OPEX and production costs",
+        "Economic decision-making in an industrial environment"
+      ]
+    },
+    {
+      "id": 2,
+      "n": "02",
+      "category": "banque",
+      "cat": "Banking & credit",
+      "title": "Bank negotiations and everyday banking operations",
+      "duration": "2 days",
+      "audience": "Treasurers, senior accountants and finance managers",
+      "summary": "Read banking agreements more effectively and identify negotiation levers for fees and terms.",
+      "themes": [
+        "Bank agreements and terms",
+        "Interest rates, fees and collateral",
+        "Value dates and banking days",
+        "Incidents, statements and the bank–business relationship"
+      ]
+    },
+    {
+      "id": 3,
+      "n": "03",
+      "category": "banque",
+      "cat": "Banking & credit",
+      "title": "Reading bank statements and understanding value dates",
+      "duration": "1 day · 6 h 45",
+      "audience": "Accountants, treasurers, CFOs, managers and bank-account holders",
+      "summary": "Examine statements to understand charges, value dates and potential mistakes.",
+      "themes": [
+        "Structure of a bank statement",
+        "Transaction date and value date",
+        "Identifying fees and interest charges",
+        "Disputing banking errors"
+      ]
+    },
+    {
+      "id": 8,
+      "n": "08",
+      "category": "gouvernance",
+      "cat": "Governance",
+      "title": "Corporate governance and managerial responsibility",
+      "duration": "2 days · 12 h",
+      "audience": "Executives and managers",
+      "summary": "Clarify governance mechanisms, responsibilities and decision-making practices.",
+      "themes": [
+        "Roles and checks and balances",
+        "Board, executive team and management",
+        "Conflicts of interest",
+        "Governance and sustainable performance"
+      ]
+    },
+    {
+      "id": 9,
+      "n": "09",
+      "category": "gouvernance",
+      "cat": "Governance",
+      "title": "Building and transforming corporate culture",
+      "duration": "2 days · 12 h",
+      "audience": "Executives and managers",
+      "summary": "Align strategy, values and behaviour to foster a culture of accountability.",
+      "themes": [
+        "Vision, mission and values",
+        "Culture, strategy and behaviour",
+        "Leadership as a cultural model",
+        "Measuring organisational culture"
+      ]
+    },
+    {
+      "id": 10,
+      "n": "10",
+      "category": "gouvernance",
+      "cat": "Governance",
+      "title": "Ethics, compliance and organisational integrity",
+      "duration": "2 days · 12 h",
+      "audience": "Managers, supervisors, team leaders and executives",
+      "summary": "Strengthen ethical practices and internal compliance systems.",
+      "themes": [
+        "Principles of ethics and compliance",
+        "Codes of conduct",
+        "Preventing risky practices",
+        "Ethical dilemmas and real-life situations"
+      ]
+    },
+    {
+      "id": 11,
+      "n": "11",
+      "category": "leadership",
+      "cat": "Leadership",
+      "title": "Responsible leadership and sustainable performance",
+      "duration": "2 days · 12 h",
+      "audience": "Managers, supervisors and senior executives",
+      "summary": "Develop a leadership approach that balances results, commitment and responsibility.",
+      "themes": [
+        "Leadership under pressure",
+        "Sustainable decision-making",
+        "Financial performance and social impact",
+        "Sustainable performance indicators"
+      ]
+    },
+    {
+      "id": 12,
+      "n": "12",
+      "category": "leadership",
+      "cat": "Leadership",
+      "title": "Professional development and career pathways",
+      "duration": "2 days · 12 h",
+      "audience": "Managers, supervisors, team leaders and executives",
+      "summary": "Map skills and build coherent professional development paths.",
+      "themes": [
+        "Skills mapping",
+        "Individual development plans",
+        "Talent management",
+        "Internal mobility and succession planning"
+      ]
+    },
+    {
+      "id": 24,
+      "n": "24",
+      "category": "finance",
+      "cat": "Corporate finance",
+      "title": "OHADA, IFRS accounting fundamentals and financial management",
+      "duration": "2 days · 12 h",
+      "audience": "Finance professionals, accountants and SME finance managers",
+      "summary": "Strengthen understanding of SYSCOHADA, accounting information and financial management.",
+      "themes": [
+        "SYSCOHADA and financial statements",
+        "Trial balances, reporting and consolidation",
+        "Corporate taxation",
+        "Governance and financial transparency"
+      ]
+    },
+    {
+      "id": 34,
+      "n": "34",
+      "category": "banque",
+      "cat": "Banking & credit",
+      "title": "Syndicated financing and bank fundraising",
+      "duration": "3 days",
+      "audience": "Executives, CFOs and financing managers",
+      "summary": "Understand how syndicated financing is structured and negotiated for major projects.",
+      "themes": [
+        "Roles of participating banks",
+        "Financial structuring and guarantees",
+        "Covenants and commitments",
+        "Negotiation and transaction monitoring"
+      ]
+    },
+    {
+      "id": 35,
+      "n": "35",
+      "category": "banque",
+      "cat": "Banking & credit",
+      "title": "Credit application analysis: the 5Cs, scoring & AI",
+      "duration": "2 days · 14 h",
+      "audience": "Credit analysts, relationship managers, committee members and risk managers",
+      "summary": "Combine professional judgement, 5C analysis and scoring tools to support credit decisions.",
+      "themes": [
+        "Fundamentals and the 5C framework",
+        "Critical reading of financial statements",
+        "Scoring and predictive AI tools",
+        "Credit memo and committee preparation"
+      ]
+    },
+    {
+      "id": 36,
+      "n": "36",
+      "category": "banque",
+      "cat": "Banking & credit",
+      "title": "Programme-based lending and value-chain finance",
+      "duration": "2 days · 12 h",
+      "audience": "Bank executives, senior analysts, risk managers and SME market leaders",
+      "summary": "Design programme-based credit facilities aligned with value-chain financing needs.",
+      "themes": [
+        "Value-chain mapping",
+        "Programme-based loan design",
+        "Sector scoring and risk management",
+        "Programme management and monitoring"
+      ]
+    }
+  ],
+  "expertise": [
+    {
+      "num": "01",
+      "title": "Financial strategy & financing",
+      "desc": "Business plans, financing plans, credit application preparation and support in dealing with financial partners.",
+      "detail": "A structured corporate finance approach to improve discussions with lenders and strengthen the quality of funding applications."
+    },
+    {
+      "num": "02",
+      "title": "Credit & risk management",
+      "desc": "Credit application analysis, decision policies, procedure design and optimisation of application processing.",
+      "detail": "Skills developed in credit management, risk analysis and coordination of banking teams."
+    },
+    {
+      "num": "03",
+      "title": "Governance & transformation",
+      "desc": "Business organisation, team coordination, process structuring and commercial development.",
+      "detail": "Supporting the formalisation of management practices and clearer allocation of responsibilities."
+    },
+    {
+      "num": "04",
+      "title": "Training & executive development",
+      "desc": "Financial education, entrepreneurial coaching, governance and training programmes for teams and executives.",
+      "detail": "Learning content shaped by banking experience and the operational challenges of organisations."
+    }
+  ],
+  "career": [
+    {
+      "period": "Since 2021",
+      "title": "Founder · M-Y-M Advisor",
+      "text": "Business advisory, financing structures, banking support and professional training in DR Congo."
+    },
+    {
+      "period": "2017 — 2022",
+      "title": "Management roles · First Bank CD",
+      "text": "Regional management, research and investment, analyst training and coordination of financial processes, according to the CV."
+    },
+    {
+      "period": "2008 — 2017",
+      "title": "Credit & financing · First Bank Cameroon",
+      "text": "Progression from risk analysis to credit management responsibilities and team coordination."
+    },
+    {
+      "period": "2006 — 2007",
+      "title": "Auditing & accounting · Advisory firms",
+      "text": "Early experience in accounting, taxation, financial statements and business advisory."
+    }
+  ]
+}

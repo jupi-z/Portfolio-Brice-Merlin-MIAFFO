@@ -1,0 +1,13 @@
+/* Additive changes only. Approved V2 styling is preserved unchanged in original-v2.css. */
+.language-switch{display:inline-flex;align-items:center;gap:3px;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.language-option{background:transparent;color:var(--soft-ink);border:0;padding:7px 9px;border-radius:999px;font-size:10px;font-weight:800;line-height:1;min-height:30px}
+.language-option.active{background:var(--accent);color:#13232a}
+.language-option:hover{color:var(--ink)}
+.language-option.active:hover{color:#13232a}
+.contact-feedback{margin-top:16px;padding:13px 15px;border:1px solid var(--line);font-size:12px;line-height:1.55}
+.contact-feedback[role=alert]{border-color:#b65a43;color:var(--ink)}
+.form-note{margin-top:16px}
+.contact-form button:disabled{opacity:.55;cursor:wait}
+.contact-form .honeypot{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;opacity:0!important}
+#trainingDialog[open]{display:flex}
+@media(max-width:530px){.language-switch{gap:0;padding:2px}.language-option{padding:6px;font-size:9px;min-height:29px}.head-actions{gap:2px}.brand-mark{gap:8px}.brand-copy small{letter-spacing:.08em}}

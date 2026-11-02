@@ -1,0 +1,244 @@
+{
+  "training": [
+    {
+      "id": 1,
+      "n": "01",
+      "category": "finance",
+      "cat": "Finance d’entreprise",
+      "title": "Finance pour managers non financiers",
+      "duration": "2 jours · 12 h",
+      "audience": "Managers, superviseurs, ingénieurs et cadres dirigeants",
+      "summary": "Comprendre les états financiers et les mécanismes économiques qui orientent les décisions de management.",
+      "themes": [
+        "Lecture des états financiers",
+        "Budgets, ROI, VAN et TRI",
+        "CAPEX, OPEX et coût de production",
+        "Décision économique en environnement industriel"
+      ]
+    },
+    {
+      "id": 2,
+      "n": "02",
+      "category": "banque",
+      "cat": "Banque & crédit",
+      "title": "Négociation bancaire et opérations courantes",
+      "duration": "2 jours",
+      "audience": "Trésoriers, comptables seniors et responsables financiers",
+      "summary": "Mieux lire les conventions bancaires et comprendre les leviers de négociation des conditions et frais.",
+      "themes": [
+        "Conventions et conditions bancaires",
+        "Taux, commissions et garanties",
+        "Dates de valeur et jours de banque",
+        "Incidents, extraits et relation banque–entreprise"
+      ]
+    },
+    {
+      "id": 3,
+      "n": "03",
+      "category": "banque",
+      "cat": "Banque & crédit",
+      "title": "Lecture des extraits bancaires et dates de valeur",
+      "duration": "1 jour · 6 h 45",
+      "audience": "Comptables, trésoriers, directeurs financiers, gestionnaires et agents bancarisés",
+      "summary": "Analyser précisément les extraits pour identifier les coûts, les dates de valeur et d’éventuelles erreurs.",
+      "themes": [
+        "Structure d’un extrait bancaire",
+        "Date comptable et date de valeur",
+        "Identification des frais et agios",
+        "Contestation des erreurs bancaires"
+      ]
+    },
+    {
+      "id": 8,
+      "n": "08",
+      "category": "gouvernance",
+      "cat": "Gouvernance",
+      "title": "Gouvernance d’entreprise et responsabilité managériale",
+      "duration": "2 jours · 12 h",
+      "audience": "Dirigeants, cadres et managers",
+      "summary": "Clarifier les mécanismes de gouvernance, les responsabilités et les pratiques de prise de décision.",
+      "themes": [
+        "Rôles et contre-pouvoirs",
+        "Conseil, direction et management",
+        "Conflits d’intérêts",
+        "Gouvernance et performance durable"
+      ]
+    },
+    {
+      "id": 9,
+      "n": "09",
+      "category": "gouvernance",
+      "cat": "Gouvernance",
+      "title": "Construction et transformation de la culture d’entreprise",
+      "duration": "2 jours · 12 h",
+      "audience": "Dirigeants, cadres et managers",
+      "summary": "Aligner stratégie, valeurs et comportements pour construire une culture de responsabilité.",
+      "themes": [
+        "Vision, missions et valeurs",
+        "Culture, stratégie et comportements",
+        "Leadership comme modèle culturel",
+        "Mesure de la culture organisationnelle"
+      ]
+    },
+    {
+      "id": 10,
+      "n": "10",
+      "category": "gouvernance",
+      "cat": "Gouvernance",
+      "title": "Éthique, conformité et intégrité organisationnelle",
+      "duration": "2 jours · 12 h",
+      "audience": "Managers, superviseurs, chefs d’équipe et cadres",
+      "summary": "Renforcer les pratiques éthiques et les dispositifs internes de conformité.",
+      "themes": [
+        "Principes d’éthique et de conformité",
+        "Codes de conduite",
+        "Prévention des pratiques à risque",
+        "Dilemmes éthiques et situations réelles"
+      ]
+    },
+    {
+      "id": 11,
+      "n": "11",
+      "category": "leadership",
+      "cat": "Leadership",
+      "title": "Leadership responsable et performance durable",
+      "duration": "2 jours · 12 h",
+      "audience": "Managers, superviseurs et cadres dirigeants",
+      "summary": "Développer une posture de leadership équilibrant résultat, engagement et responsabilité.",
+      "themes": [
+        "Leadership et pression",
+        "Décision durable",
+        "Performance économique et impact social",
+        "Indicateurs de performance durable"
+      ]
+    },
+    {
+      "id": 12,
+      "n": "12",
+      "category": "leadership",
+      "cat": "Leadership",
+      "title": "Développement professionnel et parcours de carrière",
+      "duration": "2 jours · 12 h",
+      "audience": "Managers, superviseurs, chefs d’équipe et cadres",
+      "summary": "Structurer les compétences et construire des parcours professionnels cohérents.",
+      "themes": [
+        "Cartographie des compétences",
+        "Plans de développement individuels",
+        "Gestion des talents",
+        "Mobilité interne et succession"
+      ]
+    },
+    {
+      "id": 24,
+      "n": "24",
+      "category": "finance",
+      "cat": "Finance d’entreprise",
+      "title": "Fondamentaux comptables OHADA, IFRS et gestion financière",
+      "duration": "2 jours · 12 h",
+      "audience": "Financiers, comptables et responsables de PME sous-traitantes",
+      "summary": "Renforcer la compréhension du SYSCOHADA, de l’information comptable et de la gestion financière.",
+      "themes": [
+        "SYSCOHADA et états de synthèse",
+        "Balances, reporting et consolidation",
+        "Fiscalité de l’entreprise",
+        "Gouvernance et transparence financière"
+      ]
+    },
+    {
+      "id": 34,
+      "n": "34",
+      "category": "banque",
+      "cat": "Banque & crédit",
+      "title": "Financement syndiqué et levée de fonds bancaire",
+      "duration": "3 jours",
+      "audience": "Dirigeants, directeurs financiers et responsables financement",
+      "summary": "Comprendre la structuration et la négociation de financements syndiqués pour des projets d’envergure.",
+      "themes": [
+        "Rôles des banques participantes",
+        "Structuration financière et garanties",
+        "Covenants et engagements",
+        "Négociation et suivi des opérations"
+      ]
+    },
+    {
+      "id": 35,
+      "n": "35",
+      "category": "banque",
+      "cat": "Banque & crédit",
+      "title": "Analyse d’un dossier de crédit : méthode 5C, scoring & IA",
+      "duration": "2 jours · 14 h",
+      "audience": "Analystes crédit, chargés d’affaires, membres de comité et risk managers",
+      "summary": "Combiner jugement professionnel, analyse des 5C et outils de scoring pour étayer les décisions de crédit.",
+      "themes": [
+        "Fondamentaux et approche des 5C",
+        "Lecture critique des états financiers",
+        "Scoring et outils d’IA prédictive",
+        "Mémo et préparation du comité de crédit"
+      ]
+    },
+    {
+      "id": 36,
+      "n": "36",
+      "category": "banque",
+      "cat": "Banque & crédit",
+      "title": "Crédits programmes et financement des chaînes de valeur",
+      "duration": "2 jours · 12 h",
+      "audience": "Directions de banque, analystes seniors, responsables risques et marchés PME",
+      "summary": "Concevoir des crédits programmes structurés autour des besoins des chaînes de valeur.",
+      "themes": [
+        "Cartographie des chaînes de valeur",
+        "Conception du crédit programme",
+        "Scoring sectoriel et gestion des risques",
+        "Pilotage et suivi du dispositif"
+      ]
+    }
+  ],
+  "expertise": [
+    {
+      "num": "01",
+      "title": "Stratégie financière & financement",
+      "desc": "Business plans, plans de financement, préparation des dossiers de crédit et accompagnement de la relation avec les partenaires financiers.",
+      "detail": "Une approche structurée de la finance d’entreprise pour préparer les échanges avec les financeurs et renforcer la qualité des dossiers."
+    },
+    {
+      "num": "02",
+      "title": "Crédit & management du risque",
+      "desc": "Analyse des dossiers de crédit, politiques de décision, conception de procédures et optimisation des processus de traitement.",
+      "detail": "Des compétences issues de fonctions de crédit, d’analyse des risques et de coordination d’équipes bancaires."
+    },
+    {
+      "num": "03",
+      "title": "Gouvernance & transformation",
+      "desc": "Organisation des activités, coordination d’équipes, structuration des processus et développement commercial.",
+      "detail": "Accompagner la formalisation des pratiques managériales et améliorer la lisibilité des responsabilités."
+    },
+    {
+      "num": "04",
+      "title": "Formation & développement des dirigeants",
+      "desc": "Éducation financière, coaching entrepreneurial, gouvernance et programmes de formation pour équipes et cadres.",
+      "detail": "Des contenus construits à partir de l’expérience bancaire et des enjeux opérationnels des organisations."
+    }
+  ],
+  "career": [
+    {
+      "period": "Depuis 2021",
+      "title": "Fondateur · M-Y-M Advisor",
+      "text": "Conseil aux entreprises, structuration de financements, accompagnement bancaire et formation professionnelle en RDC."
+    },
+    {
+      "period": "2017 — 2022",
+      "title": "Responsabilités de direction · First Bank CD",
+      "text": "Missions de direction régionale, recherche et investissement, formation d’analystes et coordination de processus financiers, selon le CV."
+    },
+    {
+      "period": "2008 — 2017",
+      "title": "Crédit & financement · First Bank Cameroun",
+      "text": "Évolution de l’analyse du risque vers des responsabilités de gestion du crédit et de coordination d’équipes."
+    },
+    {
+      "period": "2006 — 2007",
+      "title": "Audit & comptabilité · Cabinets de conseil",
+      "text": "Premières expériences en comptabilité, fiscalité, états financiers et accompagnement d’entreprises."
+    }
+  ]
+}
