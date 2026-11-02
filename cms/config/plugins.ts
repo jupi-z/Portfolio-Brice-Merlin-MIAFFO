@@ -1,4 +1,5 @@
 export default ({ env }: { env: (key: string, defaultValue?: unknown) => string }) => ({
+  i18n: true,
   upload: {
     config: {
       provider: 'local',

@@ -16,6 +16,7 @@ export function normalizePublication(entry) {
   const slug = asText(value.slug, 160);
   if (!locale || !editorialType || !slug || !asText(value.title, 240) || !value.publishedAt) return null;
   const content = Array.isArray(value.content) ? value.content.filter((block) => BLOCK_TYPES.has(block?.__component)) : [];
+  const localizationItems = Array.isArray(value.localizations?.data) ? value.localizations.data : Array.isArray(value.localizations) ? value.localizations : [];
   return {
     documentId: asText(value.documentId, 120),
     locale,
@@ -41,10 +42,10 @@ export function normalizePublication(entry) {
     dataDate: asText(value.dataDate, 40),
     limitations: asText(value.limitations, 3000),
     publicationAuthorization: asText(value.publicationAuthorization, 40),
-    translations: Array.isArray(value.localizations?.data) ? value.localizations.data.map((item) => {
+    translations: localizationItems.map((item) => {
       const localized = attrs(item);
       return { locale: localized.locale, slug: asText(localized.slug, 160), publishedAt: localized.publishedAt || null };
-    }).filter((item) => LOCALES.has(item.locale) && item.slug && item.publishedAt) : [],
+    }).filter((item) => LOCALES.has(item.locale) && item.slug && item.publishedAt),
     seo: value.seo && typeof value.seo === 'object' ? {
       metaTitle: asText(value.seo.metaTitle, 240),
       metaDescription: asText(value.seo.metaDescription, 320),
@@ -94,21 +95,22 @@ export function renderPublicationBody(blocks = []) {
   return blocks.map(blockHtml).join('');
 }
 
-export function publicationQuery({ locale, slug, search, category, page = 1, pageSize = 9 } = {}) {
+export function publicationQuery({ locale, slug, documentId, search, category, page = 1, pageSize = 9 } = {}) {
   const params = new URLSearchParams({ status: 'published', locale: LOCALES.has(locale) ? locale : 'fr', 'populate': '*', 'sort[0]': 'publishedAt:desc', 'pagination[page]': String(Math.max(1, page)), 'pagination[pageSize]': String(Math.min(24, Math.max(1, pageSize))) });
   if (slug) params.set('filters[slug][$eq]', slug);
+  if (documentId) params.set('filters[documentId][$eq]', documentId);
   if (category) params.set('filters[category][$eq]', category.slice(0, 120));
   if (search) params.set('filters[$or][0][title][$containsi]', search.slice(0, 120));
   return params.toString();
 }
 
-export async function fetchPublications({ locale = 'fr', slug, search, category, page = 1, pageSize = 9, fetchImpl = fetch } = {}) {
+export async function fetchPublications({ locale = 'fr', slug, documentId, search, category, page = 1, pageSize = 9, fetchImpl = fetch } = {}) {
   const base = process.env.CMS_URL || 'http://127.0.0.1:1337';
   const timeout = Number(process.env.CMS_TIMEOUT_MS || 2500);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeout);
   try {
-    const response = await fetchImpl(`${base.replace(/\/$/, '')}/api/publications?${publicationQuery({ locale, slug, search, category, page, pageSize })}`, {
+    const response = await fetchImpl(`${base.replace(/\/$/, '')}/api/publications?${publicationQuery({ locale, slug, documentId, search, category, page, pageSize })}`, {
       headers: process.env.CMS_API_TOKEN ? { Authorization: `Bearer ${process.env.CMS_API_TOKEN}` } : {},
       signal: controller.signal,
     });

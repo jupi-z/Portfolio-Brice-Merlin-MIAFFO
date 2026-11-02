@@ -12,6 +12,7 @@ test('normalizes a published Strapi document without exposing draft fields', () 
     editorialType: 'study',
     excerpt: 'Résumé public.',
     content: [{ __component: 'publication.rich-text', text: 'Paragraphe public.' }],
+    localizations: [{ locale: 'en', slug: 'a-safe-study', publishedAt: '2026-11-01T10:00:00.000Z' }],
     draftSecret: 'must-not-leak',
   });
 
@@ -19,6 +20,7 @@ test('normalizes a published Strapi document without exposing draft fields', () 
   assert.equal(publication.locale, 'fr');
   assert.equal(publication.status, 'published');
   assert.equal('draftSecret' in publication, false);
+  assert.deepEqual(publication.translations, [{ locale: 'en', slug: 'a-safe-study', publishedAt: '2026-11-01T10:00:00.000Z' }]);
 });
 
 test('renders structured blocks as escaped safe HTML', () => {

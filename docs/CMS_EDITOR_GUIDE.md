@@ -11,8 +11,9 @@ docker compose --env-file cms/.env -f cms/docker-compose.yml up --build -d
 ```
 
 4. Ouvrir `http://127.0.0.1:1337/admin` et créer le premier administrateur.
-5. Dans Settings > Users & Permissions, créer un rôle éditeur limité à Publication et Media.
-6. Créer un token API de lecture uniquement, limité à `Publication.find` et `Publication.findOne`, puis placer sa valeur dans `CMS_API_TOKEN` du `.env` racine du serveur public.
+5. Dans Settings > Global Settings > Internationalization, vérifier les locales `fr` et `en`.
+6. Dans Settings > Users & Permissions, créer un rôle éditeur limité à Publication et Media.
+7. Créer un token API de lecture uniquement, limité à `Publication.find` et `Publication.findOne`, puis placer sa valeur dans `CMS_API_TOKEN` du `.env` racine du serveur public.
 
 ## Créer et publier une publication
 
@@ -35,3 +36,5 @@ Un brouillon n’apparaît ni dans la liste publique, ni dans les recherches, ni
 ```
 
 Les volumes PostgreSQL et les uploads doivent être sauvegardés ensemble. PostgreSQL reste sur le réseau Docker privé et n’est pas publié sur Internet.
+
+Les scripts de sauvegarde/restauration utilisent le flux binaire PowerShell 7 et ciblent explicitement `cms/.env` et `cms/docker-compose.yml`. Ils ont été vérifiés localement avec un dump PostgreSQL non conservé dans Git.

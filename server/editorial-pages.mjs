@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { escapeHtml, renderPublicationBody } from './publications.mjs';
+import { escapeHtml, fetchPublications, renderPublicationBody } from './publications.mjs';
 
 const labels = {
   fr: { title: 'Perspectives', kicker: 'Perspectives & partage de connaissances', empty: 'Les prochaines publications seront présentées ici.', unavailable: 'Le pôle éditorial est momentanément indisponible.', read: 'Lire la publication', back: 'Toutes les perspectives', updated: 'Mis à jour le', published: 'Publié le', by: 'Par', download: 'Télécharger le document' },
@@ -44,12 +44,18 @@ export function renderEditorialList({ lang, items, available, buildDir, publicUr
   return renderEditorialPage({ lang, pageTitle: `${l.title} | Brice Merlin MIAFFO`, description, canonical: `${base}/${lang}/perspectives/`, buildDir, body: content, jsonLd: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: l.title, url: `${base}/${lang}/perspectives/` } });
 }
 
-export function renderEditorialDetail({ lang, item, buildDir, publicUrl }) {
+export async function renderEditorialDetail({ lang, item, buildDir, publicUrl }) {
   const l = labels[lang];
   const base = publicUrl.replace(/\/$/, '');
   const canonical = `${base}/${lang}/perspectives/${encodeURIComponent(item.slug)}/`;
   const description = item.seo?.metaDescription || item.excerpt;
-  const translation = item.translations.find((entry) => entry.locale !== lang);
+  let translation = item.translations.find((entry) => entry.locale !== lang);
+  if (!translation && item.documentId) {
+    const otherLocale = lang === 'fr' ? 'en' : 'fr';
+    const sibling = await fetchPublications({ locale: otherLocale, documentId: item.documentId, pageSize: 1 });
+    const translatedItem = sibling.items[0];
+    if (translatedItem) translation = { locale: translatedItem.locale, slug: translatedItem.slug };
+  }
   const alternate = translation ? `<p class="publication-translation"><a href="/${translation.locale}/perspectives/${encodeURIComponent(translation.slug)}/">${translation.locale === 'fr' ? 'Lire en français' : 'Read in English'} ↗</a></p>` : '';
   const metadata = `${l.published} ${new Date(item.publishedAt).toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-CA')} · ${l.by} ${escapeHtml(item.authorName)}${item.readingTime ? ` · ${item.readingTime} min` : ''}`;
   const extra = [item.methodology && `<aside class="publication-callout"><strong>${lang === 'fr' ? 'Méthodologie' : 'Methodology'}</strong><p>${escapeHtml(item.methodology)}</p></aside>`, item.scope && `<aside class="publication-callout"><strong>${lang === 'fr' ? 'Périmètre' : 'Scope'}</strong><p>${escapeHtml(item.scope)}</p></aside>`, item.limitations && `<aside class="publication-callout"><strong>${lang === 'fr' ? 'Limites' : 'Limitations'}</strong><p>${escapeHtml(item.limitations)}</p></aside>`].filter(Boolean).join('');

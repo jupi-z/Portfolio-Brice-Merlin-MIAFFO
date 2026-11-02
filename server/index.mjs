@@ -101,7 +101,7 @@ app.get('/:locale(fr|en)/perspectives/:slug/',async(req,res)=>{
  const result=await fetchPublications({locale:req.params.locale,slug:req.params.slug,pageSize:1});
  const item=result.items[0];
  if(!item)return res.status(404).send('Not found');
- return res.type('html').send(renderEditorialDetail({lang:req.params.locale,item,buildDir:buildAssets,publicUrl}));
+ return res.type('html').send(await renderEditorialDetail({lang:req.params.locale,item,buildDir:buildAssets,publicUrl}));
 });
 app.get('/:locale(fr|en)/perspectives/',async(req,res)=>{
  const result=await fetchPublications({locale:req.params.locale,search:typeof req.query.q==='string'?req.query.q:'',category:typeof req.query.category==='string'?req.query.category:'',page:Number(req.query.page)||1});
