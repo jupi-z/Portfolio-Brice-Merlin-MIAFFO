@@ -1,39 +1,29 @@
-# Portfolio — Brice Merlin MIAFFO
+# Portfolio Brice Merlin MIAFFO — Prototype premium V2
 
-Portfolio personnel professionnel de Brice Merlin MIAFFO, pensé pour un futur sous-domaine du cabinet M-Y-M Advisor.
+**Statut : prototype frontend interactif, en revue.** La branche `main` conserve la version précédente.
 
-## État du projet (02 novembre 2026)
+## Prévisualiser
 
-**Prototype interactif V1 — direction visuelle et éditoriale.** Ce n'est pas encore une version de production.
+Ouvrir le fichier [index.html](./index.html) dans un navigateur. Le portrait, les styles personnalisés et les scripts sont intégrés directement dans ce fichier ; les polices web et les composants daisyUI v5 sont chargés via CDN lorsqu'une connexion est disponible. Les styles de repli assurent le fonctionnement principal hors réseau.
 
-- `index.html` : prototype autonome (HTML/CSS/JavaScript), sans dépendance d'exécution.
-- Navigation entre six vues : Accueil, Parcours, Expertises, Formations, Perspectives et Contact.
-- Douze formations explicitement attribuées à Brice Miaffo dans le catalogue 2026–2027 ; filtre par domaine et fiches dépliables.
-- Responsive testé aux largeurs 390, 768 et 1440 px ; menu mobile, navigation et filtres fonctionnels.
-- La prise de contact utilise volontairement `mailto:`. Aucun formulaire fictif n'annonce un message envoyé.
+## Fonctionnalités
 
-## Démarrage
+- Six pages : Accueil, Parcours, Expertises, Formations, Perspectives et Contact.
+- Interface éditoriale originale, responsive, modes clair et sombre persistants.
+- Portrait en tenue jaune moutarde provenant d'une image précédemment fournie pour ce projet, sans filtre altérant ses couleurs.
+- 12 formations nommément attribuées à Brice Miaffo dans le catalogue M-Y-M Advisor / SPE-Fin Québec 2026–2027, avec recherche, filtrage et détail.
+- Formulaire qui **prépare un e-mail** et n'annonce jamais un envoi fictif.
+- Les coordonnées sont à valider avant publication.
+- Le site du cabinet M-Y-M Advisor n'est pas modifié.
 
-Ouvrir `index.html` dans le navigateur, ou le servir depuis un serveur statique. Les liens internes du prototype utilisent le fragment d'URL (`#/accueil`, etc.) pour fonctionner même sans serveur.
+## Technologies
 
-## Portrait officiel
+HTML5, CSS3, JavaScript, [daisyUI v5](https://daisyui.com/docs/cdn/) pour les composants de base (`btn`, `input`, `select`, `textarea`, `modal`), habillage sur mesure. Un futur passage en build de production devra compiler localement les ressources au lieu du CDN.
 
-L'emplacement du portrait est prévu dans `assets/brice-miaffo.png`. Le dépôt privé `jupi-z/MYM-ADVISOR` contient une photographie décrite comme officielle à `public/images/brice-miaffo.png`. **Cette photographie n'a pas été copiée dans ce dépôt** : il faudra obtenir ou exporter les octets originaux avec les permissions appropriées et confirmer la réutilisation.
+## Validation
 
-Si le portrait est absent, un traitement typographique `BM` est utilisé comme repli.
+Le prototype a été testé sous Chromium aux résolutions 1440, 810 et 390 pixels ; aucune erreur JS et aucun débordement horizontal observés. La navigation, les filtres des 12 formations, les fiches et la bascule de thème ont été contrôlés.
 
-## Sources & limites éditoriales
+**Avant déploiement** : approuver l'interface et les textes, confirmer droits du portrait, diplômes et références, préparer backend/formulaires, SEO définitif, politique de confidentialité et sous-domaine.
 
-- `CV Brice MIAFFO 2026 ENABEL.docx` (fourni dans la conversation).
-- `Catalogue_Complet_2026-2027ok (1).pdf` (catalogue M-Y-M Advisor / SPE-Fin Québec 2026–2027, fourni dans la conversation).
-- `jupi-z/MYM-ADVISOR/src/content/brice.ts` et `docs/brice-miaffo-editorial-review.md`.
-
-Le catalogue collectif propose 36 formations, mais le portfolio n'attribue personnellement à Brice Miaffo que les numéros **1, 2, 3, 8, 9, 10, 11, 12, 24, 34, 35 et 36** explicitement crédités à son nom.
-
-**Avant publication :** valider avec l'intéressé les dates, l'intitulé des diplômes, le statut de la formation en IA, les chiffres de performance, les droits des visuels, les contacts à exposer et le circuit des demandes commerciales. Le catalogue original est signalé confidentiel ; ne pas le publier directement.
-
-## Limites techniques V1
-
-Ce prototype n'a ni gestion de contenu, ni backend, ni formulaire serveur, ni pipeline CI/CD, ni variantes linguistiques complètes, ni déploiement DNS. Une phase d'industrialisation suivra l'approbation de la direction artistique et du contenu.
-
-Le dépôt `jupi-z/MYM-ADVISOR` demeure indépendant et n'est pas modifié par cette première version.
+Sources de travail : CV Brice MIAFFO 2026 ENABEL, Catalogue Complet 2026–2027, `jupi-z/MYM-ADVISOR/src/content/brice.ts`.
