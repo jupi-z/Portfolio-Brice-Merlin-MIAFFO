@@ -9,7 +9,9 @@
     "preview": "vite preview --host 0.0.0.0 --port 4173",
     "typecheck": "tsc --noEmit",
     "start": "node server/index.mjs",
-    "test:content": "node scripts/validate-content.mjs"
+    "test:content": "node scripts/validate-content.mjs",
+    "test:rendering": "node scripts/test-rendering.mjs",
+    "test": "npm run test:content && npm run test:rendering"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",

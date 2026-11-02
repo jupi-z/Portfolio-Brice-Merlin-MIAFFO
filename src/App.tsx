@@ -73,7 +73,7 @@ export default function App({initialRoute}:{initialRoute?:{lang:Lang,page:Page}}
    if(page==='home'){
     const featured=[programmes[0],programmes[1],programmes[10],programmes[11]].map(t=>trainingRow(t,lang,true)).join('');
     markup=markup.replace(/(<[^>]+id="featuredTraining"[^>]*>)(<\/[^>]+>)/,`$1${featured}$2`);
-    const expertise=domains.map(e=>expertiseRow(e,e.num==='01')).join('');
+    const expertise=domains.map(e=>expertiseRow(e,'01')).join('');
     markup=markup.replace(/(<[^>]+id="expertiseList"[^>]*>)(<\/[^>]+>)/,`$1${expertise}$2`);
    }
    if(page==='formations'){
